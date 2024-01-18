@@ -5,14 +5,20 @@
 
 package frc.team7520.robot;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team7520.robot.Constants.OperatorConstants;
-import frc.team7520.robot.commands.Autos;
-import frc.team7520.robot.commands.ExampleCommand;
-import frc.team7520.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.team7520.robot.commands.AbsoluteDrive;
+import frc.team7520.robot.commands.TeleopDrive;
+import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
+import java.io.File;
 
 
 /**
@@ -23,22 +29,48 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer
 {
-    // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-    
+    // Subsystems
+    private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+            "swerve/neo"));
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController driverController =
-            new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
-    
-    
+    private final XboxController driverController =
+            new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
         // Configure the trigger bindings
         configureBindings();
+
+        // Left joystick is the angle of the robot
+        AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
+                // Applies deadbands and inverts controls because joysticks
+                // are back-right positive while robot
+                // controls are front-left positive
+                () -> MathUtil.applyDeadband(-driverController.getLeftY(),
+                        OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(-driverController.getLeftX(),
+                        OperatorConstants.LEFT_X_DEADBAND),
+                () -> -driverController.getRightX(),
+                () -> -driverController.getRightY());
+
+        // Old drive method
+        // like in video games
+        // Easier to learn, harder to control
+        // Not tested not used
+        TeleopDrive simClosedFieldRel = new TeleopDrive(drivebase,
+                () -> MathUtil.applyDeadband(driverController.getLeftY(),
+                        OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(driverController.getLeftX(),
+                        OperatorConstants.LEFT_X_DEADBAND),
+                () -> driverController.getRawAxis(2), () -> true);
+
+        drivebase.setDefaultCommand(closedAbsoluteDrive);
     }
-    
-    
+
+
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -50,16 +82,15 @@ public class RobotContainer
      */
     private void configureBindings()
     {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(exampleSubsystem::exampleCondition)
-                .onTrue(new ExampleCommand(exampleSubsystem));
-        
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-        // cancelling on release.
-        driverController.b().whileTrue(exampleSubsystem.exampleMethodCommand());
+        // Zero gyro
+        new JoystickButton(driverController, XboxController.Button.kA.value)
+                .onTrue(new InstantCommand(drivebase::zeroGyro));
+        // X/Lock wheels
+        new JoystickButton(driverController, XboxController.Button.kX.value)
+                .onTrue(new InstantCommand(drivebase::lock));
     }
-    
-    
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -67,7 +98,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(exampleSubsystem);
+        return new  InstantCommand();
     }
 }
