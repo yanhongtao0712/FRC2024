@@ -54,7 +54,10 @@ public class RobotContainer
                 () -> MathUtil.applyDeadband(-driverController.getLeftX(),
                         OperatorConstants.LEFT_X_DEADBAND),
                 () -> -driverController.getRightX(),
-                () -> -driverController.getRightY());
+                () -> -driverController.getRightY(),
+                driverController::getRightBumper,
+                driverController::getLeftBumper
+        );
 
         // Old drive method
         // like in video games

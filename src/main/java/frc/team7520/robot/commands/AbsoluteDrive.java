@@ -15,6 +15,7 @@ import swervelib.SwerveController;
 import swervelib.math.SwerveMath;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 /**
@@ -25,6 +26,7 @@ public class AbsoluteDrive extends Command {
     private final SwerveSubsystem swerve;
     private final DoubleSupplier vX, vY;
     private final DoubleSupplier headingHorizontal, headingVertical;
+    private final BooleanSupplier CCWSpin, CWSpin;
     private boolean initRotation = false;
 
     /**
@@ -54,9 +56,25 @@ public class AbsoluteDrive extends Command {
         this.vY = vY;
         this.headingHorizontal = headingHorizontal;
         this.headingVertical = headingVertical;
+        this.CCWSpin = () -> false;
+        this.CWSpin = () -> false;
 
         addRequirements(swerve);
     }
+
+    public AbsoluteDrive(SwerveSubsystem swerve, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier headingHorizontal,
+                         DoubleSupplier headingVertical, BooleanSupplier CWSpin, BooleanSupplier CCWSpin) {
+        this.swerve = swerve;
+        this.vX = vX;
+        this.vY = vY;
+        this.headingHorizontal = headingHorizontal;
+        this.headingVertical = headingVertical;
+        this.CCWSpin = CCWSpin;
+        this.CWSpin = CWSpin;
+
+        addRequirements(swerve);
+    }
+
 
     @Override
     public void initialize() {
@@ -67,10 +85,18 @@ public class AbsoluteDrive extends Command {
     @Override
     public void execute() {
 
-        // Get the desired chassis speeds based on a 2 joystick module.
-        ChassisSpeeds desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
-                headingHorizontal.getAsDouble(),
-                headingVertical.getAsDouble());
+        ChassisSpeeds desiredSpeeds;
+
+        if (CWSpin.getAsBoolean()) {
+            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().minus(Rotation2d.fromDegrees(90)));
+        } else if (CCWSpin.getAsBoolean()) {
+            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),swerve.getHeading().plus(Rotation2d.fromDegrees(90)));
+        } else {
+            // Get the desired chassis speeds based on a 2 joystick module.
+            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
+                    headingHorizontal.getAsDouble(),
+                    headingVertical.getAsDouble());
+        }
 
         // Prevent Movement After Auto
         if (initRotation) {
