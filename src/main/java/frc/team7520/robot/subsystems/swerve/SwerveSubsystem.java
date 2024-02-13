@@ -5,6 +5,7 @@
 package frc.team7520.robot.subsystems.swerve;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -121,7 +122,7 @@ public class SwerveSubsystem extends SubsystemBase {
      * @param setOdomToStart Set the odometry position to the start of the path.
      * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command.
      */
-    public Command getAutonomousCommand(String pathName, boolean setOdomToStart) {
+    public Command getPathCommand(String pathName, boolean setOdomToStart) {
         // Load the path you want to follow using its name in the GUI
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
 
@@ -132,6 +133,21 @@ public class SwerveSubsystem extends SubsystemBase {
         // Create a path following command using AutoBuilder. This will also trigger event markers.
         return AutoBuilder.followPath(path);
     }
+
+    /**
+     * Get the autonomous command for the robot.
+     * @param autoName       Name of the auto file.
+     * @param setOdomToStart Set the odometry position to the start of the path.
+     * @return {@link PathPlannerAuto} command.
+     */
+    public Command getPPAutoCommand(String autoName, boolean setOdomToStart) {
+        if (setOdomToStart) {
+            resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoName));
+        }
+        return new PathPlannerAuto(autoName);
+    }
+
+
 
     /**
      * Construct the swerve drive.

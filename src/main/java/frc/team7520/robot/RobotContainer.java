@@ -5,10 +5,13 @@
 
 package frc.team7520.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team7520.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -73,6 +76,15 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
     }
 
+    /**
+     * Use this method to define named commands for use in {@link PathPlannerAuto}
+     *
+     */
+    private void registerNamedCommands()
+    {
+        // Example
+        NamedCommands.registerCommand("Shoot", new WaitCommand(1));
+    }
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -90,7 +102,7 @@ public class RobotContainer
                 .onTrue(new InstantCommand(drivebase::zeroGyro));
         // X/Lock wheels
         new JoystickButton(driverController, XboxController.Button.kX.value)
-                .onTrue(new InstantCommand(drivebase::lock));
+                .whileTrue(new InstantCommand(drivebase::lock));
     }
 
 
@@ -101,6 +113,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return new  InstantCommand();
+        return drivebase.getPPAutoCommand("Demo1", true);
     }
 }
