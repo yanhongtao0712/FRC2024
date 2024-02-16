@@ -300,6 +300,18 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     /**
+     *  Set the target heading of the robot.
+     *
+     * @param angle The angle in degrees.
+     */
+
+    public void setTargetHeading(Rotation2d angle){
+
+        swerveDrive.swerveController.lastAngleScalar = angle.getRadians();
+
+    }
+
+    /**
      * Get the chassis speeds based on controller input of 1 joystick and one angle.
      *
      * @param xInput X joystick input for the robot to move in the X direction.
