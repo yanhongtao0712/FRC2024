@@ -49,7 +49,7 @@ public class RobotContainer
 
     JoystickButton Stop = new JoystickButton(operatorController, XboxController.Button.kX.value);
     JoystickButton Intake = new JoystickButton(operatorController, XboxController.Button.kB.value);
-    JoystickButton ShootHalf = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
+    JoystickButton ControlledShooting = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton ShootFull = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
 
 
@@ -115,14 +115,11 @@ public class RobotContainer
         // X/Lock wheels
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new InstantCommand(drivebase::lock));
-        
-        IntakeRollers.getInstance().setDefaultCommand(IntakeRollers.getInstance().ControlledShooting(
-                () -> operatorController.getRawAxis(XboxController.Axis.kLeftTrigger.value)
-        ));
 
         Intake.whileTrue(IntakeRollers.getInstance().Intake());
         ShootFull.whileTrue(IntakeRollers.getInstance().ShootFull());
-        ShootHalf.whileTrue(IntakeRollers.getInstance().ShootHalf());
+        ControlledShooting.whileTrue(IntakeRollers.getInstance().ControlledShooting(
+                () -> operatorController.getRawAxis(XboxController.Axis.kLeftTrigger.value)));
         Stop.whileTrue(IntakeRollers.getInstance().Stop());
 
         IntakeTurning.getInstance().setDefaultCommand(IntakeTurning.getInstance().Manual(
