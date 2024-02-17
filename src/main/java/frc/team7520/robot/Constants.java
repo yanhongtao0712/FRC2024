@@ -41,6 +41,7 @@ public final class Constants {
     public static class OperatorConstants {
         // Joystick Ports
         public static final int DRIVER_CONTROLLER_PORT = 0;
+        public static final int OPERATOR_CONTROLLER_PORT = 1;
 
         // Joystick Deadband
         public static final double LEFT_X_DEADBAND = 0.01;
@@ -59,4 +60,13 @@ public final class Constants {
         // change at comp to low
         public static final SwerveDriveTelemetry.TelemetryVerbosity SWERVE_VERBOSITY = SwerveDriveTelemetry.TelemetryVerbosity.HIGH;
     }
+
+    public static class IntakeConstants {
+        public static class turn {
+          public static final int CAN_ID = 23;
+        }
+        public static class rollers {
+          public static final int CAN_ID = 22;
+        }
+      }
 }
