@@ -1,6 +1,7 @@
 package frc.team7520.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +34,8 @@ public class ShooterCommand extends Command{
           } else{
             speed = 0;
           }
+
+          
           speed = MathUtil.clamp(speed, -0.3, 1);
           m_Shooter.setSpeed(speed);
           // shooter1.set(operatorController.getLeftY());
@@ -40,6 +43,7 @@ public class ShooterCommand extends Command{
       
           // SmartDashboard.putNumber("Shooter 1 velocity", shooter1.getEncoder().getVelocity());
           // SmartDashboard.putNumber("Shooter 2 velocity", shooter2.getEncoder().getVelocity());
+          SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
           SmartDashboard.putNumber("controller", -(m_Controller.getLeftY()));
           SmartDashboard.putNumber("speed", speed);
           SmartDashboard.putBoolean("AButton", m_Controller.getAButton());
