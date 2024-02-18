@@ -28,16 +28,7 @@ public final class Constants {
         public static final double k_width = 26; // Inches
         public static final double k_length = 28; // Inches
       }
-    public static final int operatorConstants = 1;
-    public static final int kShooterLeftMotorId = 20;
-    public static final int kShooterRightMotorId = 21;
-
-    public static final double kShooterP = 0.00001;
-    public static final double kShooterI = 0.0;
-    public static final double kShooterD = 0.0;
-
-    public static final double kShooterMinOutput = 0;
-    public static final double kShooterMaxOutput = 1;
+    
     public static final class Auton {
 
         public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
@@ -55,6 +46,7 @@ public final class Constants {
     public static class OperatorConstants {
         // Joystick Ports
         public static final int DRIVER_CONTROLLER_PORT = 0;
+        public static final int OPERATOR_CONTROLLER_PORT = 1;
 
         // Joystick Deadband
         public static final double LEFT_X_DEADBAND = 0.01;
@@ -73,4 +65,41 @@ public final class Constants {
         // change at comp to low
         public static final SwerveDriveTelemetry.TelemetryVerbosity SWERVE_VERBOSITY = SwerveDriveTelemetry.TelemetryVerbosity.HIGH;
     }
+
+    public static class IntakeConstants {
+
+    public static class turn {
+      public static final int CAN_ID = 23;
+
+      public static final double kP = 0.00022;
+      public static final double kI = 0;
+      public static final double kD = 0;
+      public static final double kFF = 0.000156;
+
+      public static final double OutputMax = 1;
+      public static final double OutputMin = -1;
+
+      public static final double SmartMaxVel = 3500;
+      public static final double SmartMinVel = 0;
+      public static final double SmartAccel = 2750;
+      public static final double SmartErr = 0.4;
+      public static final int SlotID = 0;
+    }
+
+    public static class rollers {
+      public static final int CAN_ID = 22;
+    }
+  }
+
+  public static class ShooterConstants {
+    public static final int kShooterLeftMotorId = 20;
+    public static final int kShooterRightMotorId = 21;
+
+    public static final double kShooterP = 0.00001;
+    public static final double kShooterI = 0.0;
+    public static final double kShooterD = 0.0;
+
+    public static final double kShooterMinOutput = 0;
+    public static final double kShooterMaxOutput = 1;
+  }
 }

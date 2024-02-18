@@ -1,4 +1,4 @@
-package frc.team7520.robot.subsystems.swerve;
+package frc.team7520.robot.subsystems.Shooter;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team7520.robot.Constants;
 import frc.team7520.robot.RobotContainer;
+import frc.team7520.robot.subsystems.swerve.Subsystem;
 
 public class Shooter extends Subsystem {
 
@@ -41,22 +42,22 @@ public class Shooter extends Subsystem {
 
     mPeriodicIO = new PeriodicIO();
 
-    mLeftShooterMotor = new CANSparkMax(Constants.kShooterLeftMotorId, MotorType.kBrushless);
-    mRightShooterMotor = new CANSparkMax(Constants.kShooterRightMotorId, MotorType.kBrushless);
+    mLeftShooterMotor = new CANSparkMax(Constants.ShooterConstants.kShooterLeftMotorId, MotorType.kBrushless);
+    mRightShooterMotor = new CANSparkMax(Constants.ShooterConstants.kShooterRightMotorId, MotorType.kBrushless);
     mLeftShooterMotor.restoreFactoryDefaults();
     mRightShooterMotor.restoreFactoryDefaults();
 
     mLeftShooterPID = mLeftShooterMotor.getPIDController();
-    mLeftShooterPID.setP(Constants.kShooterP);
-    mLeftShooterPID.setI(Constants.kShooterI);
-    mLeftShooterPID.setD(Constants.kShooterD);
-    mLeftShooterPID.setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
+    mLeftShooterPID.setP(Constants.ShooterConstants.kShooterP);
+    mLeftShooterPID.setI(Constants.ShooterConstants.kShooterI);
+    mLeftShooterPID.setD(Constants.ShooterConstants.kShooterD);
+    mLeftShooterPID.setOutputRange(Constants.ShooterConstants.kShooterMinOutput, Constants.ShooterConstants.kShooterMaxOutput);
 
     mRightShooterPID = mRightShooterMotor.getPIDController();
-    mRightShooterPID.setP(Constants.kShooterP);
-    mRightShooterPID.setI(Constants.kShooterI);
-    mRightShooterPID.setD(Constants.kShooterD);
-    mRightShooterPID.setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
+    mRightShooterPID.setP(Constants.ShooterConstants.kShooterP);
+    mRightShooterPID.setI(Constants.ShooterConstants.kShooterI);
+    mRightShooterPID.setD(Constants.ShooterConstants.kShooterD);
+    mRightShooterPID.setOutputRange(Constants.ShooterConstants.kShooterMinOutput, Constants.ShooterConstants.kShooterMaxOutput);
 
     mLeftShooterEncoder = mLeftShooterMotor.getEncoder();
     mRightShooterEncoder = mRightShooterMotor.getEncoder();
@@ -92,14 +93,14 @@ public class Shooter extends Subsystem {
   }
   double speed = 0;
   public Command autoShoot(){
-    if(RobotController.getBatteryVoltage() < 9){
+    if(RobotController.getBatteryVoltage() < 10){
       speed = 0.7;
-    } else if (RobotController.getBatteryVoltage() < 10){
+    } else if (RobotController.getBatteryVoltage() < 11){
       speed = 0.6;
-    } else if(RobotController.getBatteryVoltage() < 11){
+    } else if(RobotController.getBatteryVoltage() < 12){
       speed = 0.5; 
     } else{
-      speed = 0;
+      speed = 0.4;
     }
     return run(() -> setSpeed(speed));
     

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.team7520.robot.subsystems.swerve.Shooter;
+import frc.team7520.robot.subsystems.Shooter.Shooter;
 
 public class ShooterCommand extends Command{
     private final Shooter m_Shooter;
@@ -25,15 +25,21 @@ public class ShooterCommand extends Command{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(m_Controller.getAButton() == true){
-            speed = 0.5;
-          } else if(m_Controller.getBButton() == true){
-            speed = 1;
-          } else if(m_Controller.getYButton() == true){
-            speed = -0.2;
+        if(m_Controller.getRightBumper() == true){
+          if(RobotController.getBatteryVoltage() < 10){
+            speed = 0.7;
+          } else if (RobotController.getBatteryVoltage() < 11){
+            speed = 0.6;
+          } else if(RobotController.getBatteryVoltage() < 12){
+            speed = 0.5; 
           } else{
-            speed = 0;
+            speed = 0.4;
           }
+        } else if(m_Controller.getBButton() == true){
+          speed = -0.2;
+        } else{
+          speed = 0;
+        }
 
           
           speed = MathUtil.clamp(speed, -0.3, 1);
