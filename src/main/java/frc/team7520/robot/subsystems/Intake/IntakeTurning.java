@@ -27,6 +27,7 @@ public class IntakeTurning extends SubsystemBase {
 
     class Position {
         public static double FLOOR = 55.2; //not exact
+        public static double AMP = 21.809415817260742;
         public static double SHOOT = 0; //not exact
     }
 
@@ -64,6 +65,13 @@ public class IntakeTurning extends SubsystemBase {
     return runOnce(
         () -> {
           setPosition(Position.SHOOT);
+        }).andThen(MoveIntake());
+  }
+
+  public Command Amp() {
+    return runOnce(
+        () -> {
+          setPosition(Position.AMP);
         }).andThen(MoveIntake());
   }
   

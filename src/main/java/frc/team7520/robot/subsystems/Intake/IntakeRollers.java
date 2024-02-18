@@ -34,17 +34,10 @@ public class IntakeRollers extends SubsystemBase {
       });
   }
 
-  public Command ShootFull() {
+  public Command Amp() {
     return run(
         () -> {
-          rollers.set(-1);
-        });
-  }
-
-  public Command ShootHalf() {
-    return run(
-        () -> {
-          rollers.set(-0.5);
+          rollers.set(-0.525);
         });
   }
 

@@ -54,10 +54,12 @@ public class RobotContainer
     SequentialCommandGroup autoShoot = new SequentialCommandGroup(Shooter.getInstance().autoShoot().withTimeout(2));
 
     JoystickButton Shoot = new JoystickButton(operatorController, XboxController.Button.kY.value);
+    JoystickButton Amp = new JoystickButton(operatorController, XboxController.Button.kX.value);
     JoystickButton Floor = new JoystickButton(operatorController, XboxController.Button.kA.value);
 
     JoystickButton Intake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
     JoystickButton ControlledShooting = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
+    JoystickButton AmpShoot = new JoystickButton(operatorController, XboxController.Button.kB.value);
 
     IntakeStop IntakeStop = new IntakeStop(IntakeRollersSubsystem);
 
@@ -132,12 +134,14 @@ public class RobotContainer
         ControlledShooting.whileTrue(IntakeRollersSubsystem.ControlledShooting(
                   () -> operatorController.getRawAxis(XboxController.Axis.kRightTrigger.value)
         ));
+        AmpShoot.whileTrue(IntakeRollersSubsystem.Amp());
             
         IntakeTurningSubsystem.setDefaultCommand(IntakeTurningSubsystem.Manual(
                   () -> operatorController.getRawAxis(XboxController.Axis.kLeftY.value)
         ));
             
         Shoot.whileTrue(IntakeTurningSubsystem.Shoot());
+        Amp.whileTrue(IntakeTurningSubsystem.Amp());
         Floor.whileTrue(IntakeTurningSubsystem.Intake());
     }
 
