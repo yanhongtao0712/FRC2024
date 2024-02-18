@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
+import frc.team7520.robot.commands.ShooterCommand;
 import frc.team7520.robot.commands.TeleopDrive;
+import frc.team7520.robot.subsystems.swerve.Shooter;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
 import java.io.File;
@@ -36,9 +38,13 @@ public class RobotContainer
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve/neo"));
 
+
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+    private final XboxController operatorController = 
+            new XboxController(Constants.operatorConstants);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,7 +67,7 @@ public class RobotContainer
                 driverController::getRightBumper,
                 driverController::getLeftBumper
         );
-
+        final ShooterCommand shooterCommand = new ShooterCommand(Shooter.getInstance(), operatorController);;
         // Old drive method
         // like in video games
         // Easier to learn, harder to control
@@ -74,6 +80,9 @@ public class RobotContainer
                 () -> driverController.getRawAxis(2), () -> true);
 
         drivebase.setDefaultCommand(closedAbsoluteDrive);
+        Shooter.getInstance().setDefaultCommand(shooterCommand);
+
+        
     }
 
     /**

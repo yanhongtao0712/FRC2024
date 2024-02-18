@@ -24,6 +24,20 @@ public final class Constants {
     public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
     public static final double LOOP_TIME = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
+    public static class Robot {
+        public static final double k_width = 26; // Inches
+        public static final double k_length = 28; // Inches
+      }
+    public static final int operatorConstants = 1;
+    public static final int kShooterLeftMotorId = 20;
+    public static final int kShooterRightMotorId = 21;
+
+    public static final double kShooterP = 0.00001;
+    public static final double kShooterI = 0.0;
+    public static final double kShooterD = 0.0;
+
+    public static final double kShooterMinOutput = 0;
+    public static final double kShooterMaxOutput = 1;
     public static final class Auton {
 
         public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
