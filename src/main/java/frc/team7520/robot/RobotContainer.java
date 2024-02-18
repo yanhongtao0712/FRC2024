@@ -11,6 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team7520.robot.Constants.OperatorConstants;
@@ -45,6 +46,9 @@ public class RobotContainer
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
     private final XboxController operatorController = 
             new XboxController(Constants.operatorConstants);
+
+    SequentialCommandGroup autoShoot = new SequentialCommandGroup(Shooter.getInstance().autoShoot().withTimeout(2));
+
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -81,7 +85,7 @@ public class RobotContainer
 
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         Shooter.getInstance().setDefaultCommand(shooterCommand);
-
+        
         
     }
 

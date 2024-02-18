@@ -92,12 +92,14 @@ public class Shooter extends Subsystem {
   }
   double speed = 0;
   public Command autoShoot(){
-    if(RobotController.getBatteryVoltage() < 10){
+    if(RobotController.getBatteryVoltage() < 9){
       speed = 0.7;
-    } else if (RobotController.getBatteryVoltage() < 11){
+    } else if (RobotController.getBatteryVoltage() < 10){
       speed = 0.6;
-    } else if(RobotController.getBatteryVoltage() < 12){
-      speed = 0.5;
+    } else if(RobotController.getBatteryVoltage() < 11){
+      speed = 0.5; 
+    } else{
+      speed = 0;
     }
     return run(() -> setSpeed(speed));
     
