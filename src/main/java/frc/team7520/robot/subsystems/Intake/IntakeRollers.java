@@ -9,7 +9,7 @@ import java.util.function.DoubleSupplier;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants;
 
@@ -27,36 +27,36 @@ public class IntakeRollers extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public IntakeRollers() {}
 
-  public InstantCommand ShootFull() {
-    return new InstantCommand(
+    public Command Intake() {
+    return run(
+      () -> {
+        rollers.set(0.35);
+      });
+  }
+
+  public Command ShootFull() {
+    return run(
         () -> {
           rollers.set(-1);
         });
   }
 
-  public InstantCommand ShootHalf() {
-    return new InstantCommand(
+  public Command ShootHalf() {
+    return run(
         () -> {
           rollers.set(-0.5);
         });
   }
 
-  public InstantCommand Stop() {
-    return new InstantCommand(
+  public Command Stop() {
+    return run(
         () -> {
           rollers.set(0);
         });
   }
 
-  public InstantCommand Intake() {
-    return new InstantCommand(
-        () -> {
-          rollers.set(0.35);
-        });
-  }
-
-  public InstantCommand ControlledShooting(DoubleSupplier BumpVal) {
-    return new InstantCommand(
+  public Command ControlledShooting(DoubleSupplier BumpVal) {
+    return run(
         () -> {
           rollers.set(-0.9 * BumpVal.getAsDouble());
         });

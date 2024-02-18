@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
 import frc.team7520.robot.commands.TeleopDrive;
+import frc.team7520.robot.commands.IntakeStop;
 import frc.team7520.robot.subsystems.Intake.IntakeRollers;
 import frc.team7520.robot.subsystems.Intake.IntakeTurning;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
@@ -37,6 +38,8 @@ public class RobotContainer
     // Subsystems
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve/neo"));
+    private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
+    private final IntakeTurning IntakeTurningSubsystem = IntakeTurning.getInstance();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
@@ -44,13 +47,15 @@ public class RobotContainer
     private final XboxController operatorController =
             new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
   
-    JoystickButton Shoot = new JoystickButton(operatorController, XboxController.Button.kY.value);
-    JoystickButton Floor = new JoystickButton(operatorController, XboxController.Button.kA.value);
-
-    JoystickButton Stop = new JoystickButton(operatorController, XboxController.Button.kX.value);
-    JoystickButton Intake = new JoystickButton(operatorController, XboxController.Button.kB.value);
-    JoystickButton ControlledShooting = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
-    JoystickButton ShootFull = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
+            JoystickButton Shoot = new JoystickButton(operatorController, XboxController.Button.kY.value);
+            JoystickButton Floor = new JoystickButton(operatorController, XboxController.Button.kA.value);
+          
+            JoystickButton Stop = new JoystickButton(operatorController, XboxController.Button.kX.value);
+            JoystickButton Intake = new JoystickButton(operatorController, XboxController.Button.kLeftBumper.value);
+            JoystickButton ControlledShooting = new JoystickButton(operatorController, XboxController.Button.kB.value);
+            JoystickButton ShootHalf = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
+          
+            IntakeStop IntakeStop = new IntakeStop(IntakeRollersSubsystem);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -86,6 +91,7 @@ public class RobotContainer
                 () -> driverController.getRawAxis(2), () -> true);
 
         drivebase.setDefaultCommand(closedAbsoluteDrive);
+        IntakeRollersSubsystem.setDefaultCommand(IntakeStop);
     }
 
     /**
@@ -116,18 +122,20 @@ public class RobotContainer
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new InstantCommand(drivebase::lock));
 
-        Intake.whileTrue(IntakeRollers.getInstance().Intake());
-        ShootFull.whileTrue(IntakeRollers.getInstance().ShootFull());
-        ControlledShooting.whileTrue(IntakeRollers.getInstance().ControlledShooting(
-                () -> operatorController.getRawAxis(XboxController.Axis.kLeftTrigger.value)));
-        Stop.whileTrue(IntakeRollers.getInstance().Stop());
-
-        IntakeTurning.getInstance().setDefaultCommand(IntakeTurning.getInstance().Manual(
-                () -> operatorController.getRawAxis(XboxController.Axis.kLeftY.value)
-        ));
-
-        Shoot.whileTrue(IntakeTurning.getInstance().Shoot());
-        Floor.whileTrue(IntakeTurning.getInstance().Intake());
+        Intake.whileTrue(IntakeRollersSubsystem.Intake());
+                ControlledShooting.whileTrue(IntakeRollersSubsystem.ControlledShooting(
+                  () -> operatorController.getRawAxis(XboxController.Axis.kRightTrigger.value)
+                ));
+        
+        ShootHalf.whileTrue(IntakeRollersSubsystem.ShootHalf());
+        Stop.whileTrue(IntakeRollersSubsystem.Stop());
+            
+        IntakeTurningSubsystem.setDefaultCommand(IntakeTurningSubsystem.Manual(
+                  () -> operatorController.getRawAxis(XboxController.Axis.kLeftY.value)
+                ));
+            
+        Shoot.whileTrue(IntakeTurningSubsystem.Shoot());
+        Floor.whileTrue(IntakeTurningSubsystem.Intake());
     }
 
 
