@@ -8,7 +8,7 @@ import frc.team7520.robot.subsystems.Intake.IntakeRollers;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class IntakeStop extends Command {
+public class Intake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeRollers IntakeRollersSubsystem;
 
@@ -17,7 +17,7 @@ public class IntakeStop extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeStop(IntakeRollers IntakeRollersSubsystem) {
+  public Intake(IntakeRollers IntakeRollersSubsystem) {
     this.IntakeRollersSubsystem = IntakeRollersSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(IntakeRollersSubsystem);

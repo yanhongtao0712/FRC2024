@@ -71,14 +71,9 @@ public final class Constants {
     public static class turn {
       public static final int CAN_ID = 23;
 
-      public static final double EncCountsPerRev = 4096;
       public static final double GearRatio = 100;
-      // public static final double EncPerGear360Deg = EncCountsPerRev * GearRatio;
-      // public static final double EncPerGear1Deg = (EncCountsPerRev * GearRatio) / 360;
       public static final double GearAnglePerMotorRev = 360/GearRatio;
-      public static final double MotorRevPerGear1Deg = 1/GearAnglePerMotorRev;
-      public static final double MotorRevPerGear360Deg = MotorRevPerGear1Deg * 360;
-      public static final double ConversionFactor = 0.01;
+      public static final double ConversionFactor = 1/GearRatio;
 
       public static final double Floor = 55.2 * GearAnglePerMotorRev;
       public static final double Amp = 21.809415817260742 * GearAnglePerMotorRev;

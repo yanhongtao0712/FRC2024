@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
-import frc.team7520.robot.commands.IntakeStop;
+import frc.team7520.robot.commands.Intake;
 import frc.team7520.robot.commands.ShooterCommand;
 import frc.team7520.robot.commands.TeleopDrive;
 import frc.team7520.robot.subsystems.Intake.IntakeRollers;
@@ -61,7 +61,7 @@ public class RobotContainer
     JoystickButton ControlledShooting = new JoystickButton(operatorController, XboxController.Button.kRightBumper.value);
     JoystickButton AmpShoot = new JoystickButton(operatorController, XboxController.Button.kB.value);
 
-    IntakeStop IntakeStop = new IntakeStop(IntakeRollersSubsystem);
+    Intake IntakeStop = new Intake(IntakeRollersSubsystem);
 
 
 
