@@ -31,7 +31,7 @@ public class IntakeStop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeRollersSubsystem.rollers.set(0);
+    // IntakeRollersSubsystem.rollers.set(0);
   }
     
 

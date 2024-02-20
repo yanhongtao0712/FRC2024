@@ -25,7 +25,9 @@ public class IntakeRollers extends SubsystemBase {
     }
 
   /** Creates a new ExampleSubsystem. */
-  public IntakeRollers() {}
+  public IntakeRollers() {
+    rollers.setInverted(true);
+  }
 
   public Command Intake() {
     return run(

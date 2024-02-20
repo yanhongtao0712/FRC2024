@@ -23,7 +23,7 @@ import frc.team7520.robot.commands.IntakeStop;
 import frc.team7520.robot.commands.ShooterCommand;
 import frc.team7520.robot.commands.TeleopDrive;
 import frc.team7520.robot.subsystems.Intake.IntakeRollers;
-import frc.team7520.robot.subsystems.Intake.IntakeTurning;
+import frc.team7520.robot.subsystems.Intake.IntakePivot;
 import frc.team7520.robot.subsystems.Shooter.Shooter;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
@@ -43,7 +43,7 @@ public class RobotContainer
             "swerve/neo"));
 
     private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
-    private final IntakeTurning IntakeTurningSubsystem = IntakeTurning.getInstance();
+    private final IntakePivot IntakeTurningSubsystem = IntakePivot.getInstance();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
