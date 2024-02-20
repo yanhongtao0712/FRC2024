@@ -25,26 +25,21 @@ public class IntakeRollers extends SubsystemBase {
     }
 
   /** Creates a new ExampleSubsystem. */
-  public IntakeRollers() {}
+  public IntakeRollers() {
+    rollers.setInverted(true);
+  }
 
-    public Command Intake() {
+  public Command Intake() {
     return run(
       () -> {
         rollers.set(0.35);
       });
   }
 
-  public Command ShootFull() {
+  public Command Amp() {
     return run(
         () -> {
-          rollers.set(-1);
-        });
-  }
-
-  public Command ShootHalf() {
-    return run(
-        () -> {
-          rollers.set(-0.5);
+          rollers.set(-0.525);
         });
   }
 
@@ -55,10 +50,10 @@ public class IntakeRollers extends SubsystemBase {
         });
   }
 
-  public Command ControlledShooting(DoubleSupplier BumpVal) {
+  public Command ControlledShooting(DoubleSupplier ShootVal) {
     return run(
         () -> {
-          rollers.set(-0.9 * BumpVal.getAsDouble());
+          rollers.set(-0.9 * ShootVal.getAsDouble());
         });
   }
 }

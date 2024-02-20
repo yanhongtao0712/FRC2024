@@ -5,20 +5,23 @@
 package frc.team7520.robot.commands;
 
 import frc.team7520.robot.subsystems.Intake.IntakeRollers;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class IntakeStop extends Command {
+public class Intake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeRollers IntakeRollersSubsystem;
+  private XboxController xbox;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeStop(IntakeRollers IntakeRollersSubsystem) {
+  public Intake(IntakeRollers IntakeRollersSubsystem, XboxController xbox) {
     this.IntakeRollersSubsystem = IntakeRollersSubsystem;
+    this.xbox = xbox;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(IntakeRollersSubsystem);
   }
@@ -31,7 +34,18 @@ public class IntakeStop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeRollersSubsystem.rollers.set(0);
+    if(xbox.getLeftBumper() == true) {
+      IntakeRollersSubsystem.Intake();
+    }
+    else if (xbox.getRightBumper() == true) {
+      IntakeRollersSubsystem.ControlledShooting(() -> xbox.getRightTriggerAxis());
+    }
+    else if (xbox.getBButton() == true) {
+      IntakeRollersSubsystem.Amp();
+    }
+    else {
+      IntakeRollersSubsystem.Stop();
+    }
   }
     
 

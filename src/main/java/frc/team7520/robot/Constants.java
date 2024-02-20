@@ -62,8 +62,30 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
-        public static class turn {
+        public static class pivotConstants {
           public static final int CAN_ID = 23;
+
+          public static final double GearRatio = 100;
+          public static final double GearAnglePerMotorRev = 360/GearRatio;
+          public static final double ConversionFactor = 1/GearRatio;
+
+          public static final double Floor = 55.2 * GearAnglePerMotorRev;
+          public static final double Amp = 21.809415817260742 * GearAnglePerMotorRev;
+          public static final double Shoot = 0;
+
+          public static final double kP = 0.00022;
+          public static final double kI = 0;
+          public static final double kD = 0;
+          public static final double kFF = 0.000156;
+
+          public static final double OutputMax = 1;
+          public static final double OutputMin = -1;
+
+          public static final double SmartMaxVel = 30000000;
+          public static final double SmartMinVel = 0;
+          public static final double SmartAccel = 20000;
+          public static final double SmartErr = 0.01;
+          public static final int SlotID = 0;
         }
         public static class rollers {
           public static final int CAN_ID = 22;
