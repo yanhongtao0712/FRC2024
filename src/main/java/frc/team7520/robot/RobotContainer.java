@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
 import frc.team7520.robot.commands.TeleopDrive;
+import frc.team7520.robot.commands.Intake;
+import frc.team7520.robot.subsystems.Intake.IntakeRollers;
+import frc.team7520.robot.subsystems.Intake.IntakePivot;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
 import java.io.File;
@@ -36,10 +39,20 @@ public class RobotContainer
     // Subsystems
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve/neo"));
+    private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
+    private final IntakePivot IntakePivotSubsystem = IntakePivot.getInstance();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+    private final XboxController operatorController =
+            new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
+  
+            JoystickButton Shoot = new JoystickButton(operatorController, XboxController.Button.kY.value);
+            JoystickButton Amp = new JoystickButton(operatorController, XboxController.Button.kX.value);
+            JoystickButton Floor = new JoystickButton(operatorController, XboxController.Button.kA.value);
+
+            Intake Intake = new Intake(IntakeRollersSubsystem, operatorController);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -75,6 +88,7 @@ public class RobotContainer
                 () -> driverController.getRawAxis(2), () -> true);
 
         drivebase.setDefaultCommand(closedAbsoluteDrive);
+        IntakeRollersSubsystem.setDefaultCommand(Intake);
     }
 
     /**
@@ -103,7 +117,14 @@ public class RobotContainer
                 .onTrue(new InstantCommand(drivebase::zeroGyro));
         // X/Lock wheels
         new JoystickButton(driverController, XboxController.Button.kX.value)
-                .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
+                          .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
+        IntakePivotSubsystem.setDefaultCommand(IntakePivotSubsystem.Manual(
+                  () -> operatorController.getRawAxis(XboxController.Axis.kLeftY.value)
+        ));
+                    
+        Shoot.whileTrue(IntakePivotSubsystem.Shoot());
+        Amp.whileTrue(IntakePivotSubsystem.Amp());
+        Floor.whileTrue(IntakePivotSubsystem.Intake());
     }
 
 
