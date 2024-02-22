@@ -30,7 +30,7 @@ public class ShooterCommand extends Command{
         } else if(m_Controller.getBButton() == true){
           RPM = -2000;
         } else{
-          RPM = 0;
+          m_Shooter.stopShooter();
         }
         m_Shooter.SetSpeed(RPM);
           // shooter1.set(operatorController.getLeftY());

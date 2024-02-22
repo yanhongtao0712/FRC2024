@@ -19,6 +19,8 @@ public class Shooter extends SubsystemBase {
   private static Shooter mInstance;
   private PeriodicIO mPeriodicIO;
 
+  boolean stopShoot;
+
   public static Shooter getInstance() {
     if (mInstance == null) {
       mInstance = new Shooter();
@@ -62,8 +64,8 @@ public class Shooter extends SubsystemBase {
     mLeftShooterEncoder = mLeftShooterMotor.getEncoder();
     mRightShooterEncoder = mRightShooterMotor.getEncoder();
 
-    mLeftShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    mRightShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    mLeftShooterMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    mRightShooterMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     mLeftShooterMotor.setInverted(false);
     mRightShooterMotor.setInverted(true);
@@ -80,6 +82,11 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     mLeftShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
     mRightShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
+    if(stopShoot == true){
+      mLeftShooterMotor.set(0);
+      mRightShoerMotor.set(0);
+      stopShoot = false;
+    }
   }
   
   /*---------------------------------- Custom Public Functions ----------------------------------*/
@@ -89,7 +96,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stopShooter() {
-    mPeriodicIO.shooter_rpm = 0.0;
+    stopShoot = true;
+    mPeriodicIO.shooter_rpm = 0;
   }
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/
