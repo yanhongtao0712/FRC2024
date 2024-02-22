@@ -67,7 +67,7 @@ public class Robot extends TimedRobot
     public void autonomousInit()
     {
        // autonomousCommand = robotContainer.getAutonomousCommand();
-        autonomousCommand = robotContainer.autoShoot;
+        //autonomousCommand = robotContainer.autoShoot;
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
         {

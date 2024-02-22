@@ -47,7 +47,8 @@ public class RobotContainer
     private final XboxController operatorController = 
             new XboxController(Constants.operatorConstants);
 
-    SequentialCommandGroup autoShoot = new SequentialCommandGroup(Shooter.getInstance().autoShoot().withTimeout(2));
+    //SequentialCommandGroup autoShoot = new SequentialCommandGroup(Shooter.getInstance().autoShoot().withTimeout(2));
+
 
 
 
@@ -71,7 +72,7 @@ public class RobotContainer
                 driverController::getRightBumper,
                 driverController::getLeftBumper
         );
-        final ShooterCommand shooterCommand = new ShooterCommand(Shooter.getInstance(), operatorController);;
+        ShooterCommand shooterCommand = new ShooterCommand(Shooter.getInstance(), operatorController);
         // Old drive method
         // like in video games
         // Easier to learn, harder to control

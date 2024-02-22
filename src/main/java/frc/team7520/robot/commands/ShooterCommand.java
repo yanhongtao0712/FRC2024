@@ -21,32 +21,26 @@ public class ShooterCommand extends Command{
     @Override
     public void initialize() {
     }
-    double speed = 0;
     // Called every time the scheduler runs while the command is scheduled.
+    double RPM;
     @Override
     public void execute() {
-        if(m_Controller.getAButton() == true){
-            speed = 0.5;
-          } else if(m_Controller.getBButton() == true){
-            speed = 1;
-          } else if(m_Controller.getYButton() == true){
-            speed = -0.2;
-          } else{
-            speed = 0;
-          }
-
-          
-          speed = MathUtil.clamp(speed, -0.3, 1);
-          m_Shooter.setSpeed(speed);
+        if(m_Controller.getLeftTriggerAxis() > 0.2){
+          RPM = 3400;
+        } else if(m_Controller.getBButton() == true){
+          RPM = -2000;
+        } else{
+          RPM = 0;
+        }
+        m_Shooter.SetSpeed(RPM);
           // shooter1.set(operatorController.getLeftY());
           // shooter2.set(operatorController.getRightY());
       
           // SmartDashboard.putNumber("Shooter 1 velocity", shooter1.getEncoder().getVelocity());
           // SmartDashboard.putNumber("Shooter 2 velocity", shooter2.getEncoder().getVelocity());
-          SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
-          SmartDashboard.putNumber("controller", -(m_Controller.getLeftY()));
-          SmartDashboard.putNumber("speed", speed);
-          SmartDashboard.putBoolean("AButton", m_Controller.getAButton());
+        SmartDashboard.putNumber("Battery Voltage", RobotController.getBatteryVoltage());
+        SmartDashboard.putNumber("controller", -(m_Controller.getLeftY()));
+        SmartDashboard.putBoolean("AButton", m_Controller.getAButton());
     }
 
     // Called once the command ends or is interrupted.

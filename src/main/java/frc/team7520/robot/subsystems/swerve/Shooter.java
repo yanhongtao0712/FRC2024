@@ -9,10 +9,11 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants;
 import frc.team7520.robot.RobotContainer;
 
-public class Shooter extends Subsystem {
+public class Shooter extends SubsystemBase {
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Shooter mInstance;
@@ -77,52 +78,13 @@ public class Shooter extends Subsystem {
 
   @Override
   public void periodic() {
-    double limitedSpeed = mSpeedLimiter.calculate(mPeriodicIO.shooter_rpm);
-    // mLeftShooterPID.setReference(limitedSpeed, ControlType.kVelocity);
-    // mRightShooterPID.setReference(limitedSpeed, com.revrobotics.CANSparkMax.ControlType.kVelocity);
-    mLeftShooterMotor.set(limitedSpeed);
-    mRightShooterMotor.set(limitedSpeed);
-    SmartDashboard.putNumber("Limited speed", limitedSpeed);
-
+    mLeftShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
+    mRightShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
   }
-
-  @Override
-  public void writePeriodicOutputs() {
-    
-  }
-  double speed = 0;
-  public Command autoShoot(){
-    if(RobotController.getBatteryVoltage() < 9){
-      speed = 0.7;
-    } else if (RobotController.getBatteryVoltage() < 10){
-      speed = 0.6;
-    } else if(RobotController.getBatteryVoltage() < 11){
-      speed = 0.5; 
-    } else{
-      speed = 0;
-    }
-    return run(() -> setSpeed(speed));
-    
-  }
-  @Override
-  public void stop() {
-    stopShooter();
-  }
-
-  @Override
-  public void outputTelemetry() {
-    putNumber("Speed (RPM):", mPeriodicIO.shooter_rpm);
-    putNumber("Left speed:", mLeftShooterEncoder.getVelocity());
-    putNumber("Right speed:", mRightShooterEncoder.getVelocity());
-  }
-
-  @Override
-  public void reset() {
-  }
-
+  
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
-  public void setSpeed(double rpm) {
+  public void SetSpeed(double rpm) {
     mPeriodicIO.shooter_rpm = rpm;
   }
 
