@@ -11,6 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team7520.robot.Constants.OperatorConstants;
@@ -116,8 +117,7 @@ public class RobotContainer
                 .onTrue(new InstantCommand(drivebase::zeroGyro));
         // X/Lock wheels
         new JoystickButton(driverController, XboxController.Button.kX.value)
-                .whileTrue(new InstantCommand(drivebase::lock));
-                    
+                          .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
         IntakePivotSubsystem.setDefaultCommand(IntakePivotSubsystem.Manual(
                   () -> operatorController.getRawAxis(XboxController.Axis.kLeftY.value)
         ));
