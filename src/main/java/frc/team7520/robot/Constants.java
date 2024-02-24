@@ -94,6 +94,20 @@ public final class Constants {
             public static final double kI = 0;
             public static final double kD = 0;
             public static final double kFF = 0;
+
+            public static final double MAX_RPM = 5676;
         }
+    }
+
+    public static class ShooterConstants {
+        public static final int ShooterLeftID = 20;
+        public static final int ShooterRightID = 21;
+
+        public static final double kP = 0.002;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kFF = 0.000156;
+
+        public static final double MAX_RPM = 5676;
     }
 }
