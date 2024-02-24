@@ -4,59 +4,59 @@
 
 package frc.team7520.robot.commands;
 
-import frc.team7520.robot.subsystems.Intake.IntakeRollers;
+import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class Intake extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IntakeRollers IntakeRollersSubsystem;
-  private XboxController xbox;
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+    private final IntakeSubsystem intakeSubsystem;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public Intake(IntakeRollers IntakeRollersSubsystem, XboxController xbox) {
-    this.IntakeRollersSubsystem = IntakeRollersSubsystem;
-    this.xbox = xbox;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(IntakeRollersSubsystem);
-  }
+    private final boolean intake;
+    private final boolean amp;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if(xbox.getLeftBumper() == true) {
-      IntakeRollersSubsystem.Intake();
+    /**
+     * Creates a new ExampleCommand.
+     *
+     * @param intakeSubsystem The subsystem used by this command.
+     */
+    public Intake(IntakeSubsystem intakeSubsystem, boolean intake, boolean amp) {
+        this.intakeSubsystem = intakeSubsystem;
+        this.intake = intake;
+        this.amp = amp;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(intakeSubsystem);
     }
-    else if (xbox.getRightBumper() == true) {
-      IntakeRollersSubsystem.ControlledShooting(() -> xbox.getRightTriggerAxis());
-    }
-    else if (xbox.getBButton() == true) {
-      IntakeRollersSubsystem.Amp();
-    }
-    else {
-      IntakeRollersSubsystem.Stop();
-    }
-  }
-    
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        if (intake) {
+            intakeSubsystem.setSpeed(0.35, false);
+            return;
+        }
+        if (amp) {
+            intakeSubsystem.setSpeed(-0.525, false);
+            return;
+        }
+        intakeSubsystem.setSpeed(0);
+    }
+
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

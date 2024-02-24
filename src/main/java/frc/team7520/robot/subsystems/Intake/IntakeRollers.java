@@ -15,7 +15,7 @@ import frc.team7520.robot.Constants;
 
 public class IntakeRollers extends SubsystemBase {
 
-  public CANSparkMax rollers = new CANSparkMax(Constants.IntakeConstants.rollers.CAN_ID, MotorType.kBrushless);
+  public CANSparkMax rollers = new CANSparkMax(Constants.IntakeConstants.PivotConstants.CAN_ID, MotorType.kBrushless);
 
   private final static IntakeRollers INSTANCE = new IntakeRollers();
 
