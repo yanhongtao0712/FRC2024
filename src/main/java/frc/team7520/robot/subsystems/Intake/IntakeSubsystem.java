@@ -12,6 +12,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +27,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private RelativeEncoder pivotEncoder;
     private final SparkPIDController pivotPID = pivot.getPIDController();
     private final SparkPIDController wheelsPID = wheels.getPIDController();
+
+    private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.1);
 
     public Rotation2d DesiredPosition = Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot);
 
@@ -109,11 +112,10 @@ public class IntakeSubsystem extends SubsystemBase {
         );
     }
 
-    public Command stop() {
-        return run(
-                () -> {
-                    wheels.set(0);
-                });
+    public void stop() {
+
+        wheels.set(0);
+
     }
 
     public void setSpeed(double speed) {
@@ -121,12 +123,14 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void setSpeed(double speed, boolean closedLoop) {
+        speed = slewRateLimiter.calculate(speed);
+
         if(closedLoop) {
+            speed *= IntakeConstants.WheelConstants.MAX_RPM;
+
             if (speed == 0) {
                 wheels.set(0);
             } else {
-
-
                 wheelsPID.setReference(speed, ControlType.kVelocity);
             }
         } else {
