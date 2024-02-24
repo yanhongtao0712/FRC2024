@@ -4,8 +4,7 @@
 
 package frc.team7520.robot.subsystems.Intake;
 
-import java.util.function.DoubleSupplier;
-
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -15,7 +14,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants.IntakeConstants;
 
@@ -28,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private final SparkPIDController pivotPID = pivot.getPIDController();
     private final SparkPIDController wheelsPID = wheels.getPIDController();
 
-    private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.1);
+    private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
     public Rotation2d DesiredPosition = Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot);
 
@@ -40,7 +38,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     /** Creates a new ExampleSubsystem. */
-    public IntakeSubsystem() {
+    private IntakeSubsystem() {
         this.pivotEncoder = pivot.getEncoder();
         pivotEncoder.setPosition(0);
         pivotEncoder.setPositionConversionFactor(IntakeConstants.PivotConstants.ConversionFactor);
@@ -56,11 +54,11 @@ public class IntakeSubsystem extends SubsystemBase {
         pivotPID.setSmartMotionAllowedClosedLoopError(IntakeConstants.PivotConstants.SmartErr, IntakeConstants.PivotConstants.SlotID);
 
 
-        pivot.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        pivot.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
         // Wheels
         wheels.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        wheels.setInverted(true);
+//        wheels.setInverted(true);
 
         wheelsPID.setP(IntakeConstants.WheelConstants.kP);
         wheelsPID.setI(IntakeConstants.WheelConstants.kI);
@@ -68,49 +66,46 @@ public class IntakeSubsystem extends SubsystemBase {
         wheelsPID.setFF(IntakeConstants.WheelConstants.kFF);
     }
 
-    public void setRotation(Rotation2d position){
+    public void setPosition(Rotation2d position){
         DesiredPosition = position;
+        pivotPID.setReference(DesiredPosition.getRotations(), ControlType.kSmartMotion);
     }
 
-    public Command Shoot() {
-        return runOnce(
-                () -> {
-                    setRotation(Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot));
-                }).andThen(MoveIntake());
-    }
+//    public Command Shoot() {
+//        return runOnce(
+//                () -> {
+//                    setRotation(Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot));
+//                }).andThen(MoveIntake());
+//    }
+//
+//    public Command Amp() {
+//        return runOnce(
+//                () -> {
+//                    setRotation(Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Amp));
+//                }).andThen(MoveIntake());
+//    }
+//
+//    public Command Intake() {
+//        return runOnce(
+//                () -> {
+//                    setRotation(Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Floor));
+//                }).andThen(MoveIntake());
+//    }
+//
+//    public Command Manual(DoubleSupplier pivot) {
+//        return runOnce(
+//                () -> {
+//                    double pivotVal = pivot.getAsDouble();
+//
+//                    if(Math.abs(pivotVal) > 0.05) {
+//                        DesiredPosition = DesiredPosition.plus(Rotation2d.fromDegrees(1 * pivotVal));
+//                    }
+//                }).andThen(MoveIntake());
+//    }
 
-    public Command Amp() {
-        return runOnce(
-                () -> {
-                    setRotation(Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Amp));
-                }).andThen(MoveIntake());
-    }
-
-    public Command Intake() {
-        return runOnce(
-                () -> {
-                    setRotation(Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Floor));
-                }).andThen(MoveIntake());
-    }
-
-    public Command Manual(DoubleSupplier pivot) {
-        return runOnce(
-                () -> {
-                    double pivotVal = pivot.getAsDouble();
-
-                    if(Math.abs(pivotVal) > 0.05) {
-                        DesiredPosition = DesiredPosition.plus(Rotation2d.fromDegrees(1 * pivotVal));
-                    }
-                }).andThen(MoveIntake());
-    }
-
-    public Command MoveIntake() {
-        return runOnce(
-                () -> {
-                    pivotPID.setReference(DesiredPosition.getRotations(), ControlType.kSmartMotion);
-                }
-        );
-    }
+//    public void moveIntake() {
+//        pivotPID.setReference(DesiredPosition.getRotations(), ControlType.kSmartMotion);
+//    }
 
     public void stop() {
 

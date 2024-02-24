@@ -4,8 +4,9 @@
 
 package frc.team7520.robot.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.team7520.robot.Constants;
 import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.BooleanSupplier;
@@ -14,21 +15,69 @@ import java.util.function.BooleanSupplier;
 public class Intake extends Command {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final IntakeSubsystem intakeSubsystem;
+    private final BooleanSupplier shootSup;
+    private final BooleanSupplier shootPosSup;
+    private final BooleanSupplier intakePosSup;
+    private final BooleanSupplier ampPosSup;
 
-    private final BooleanSupplier intake;
-    private final BooleanSupplier amp;
+    public enum Position {
+        SHOOT,
+        INTAKE,
+        AMP
+    }
+
+    public Position currPosition = Position.SHOOT;
+
+
 
     /**
      * Creates a new ExampleCommand.
      *
      * @param intakeSubsystem The subsystem used by this command.
      */
-    public Intake(IntakeSubsystem intakeSubsystem, BooleanSupplier intake, BooleanSupplier amp) {
+    public Intake(IntakeSubsystem intakeSubsystem, BooleanSupplier shootSup, BooleanSupplier shootPosSup, BooleanSupplier intakePosSup, BooleanSupplier ampPosSup) {
         this.intakeSubsystem = intakeSubsystem;
-        this.intake = intake;
-        this.amp = amp;
+        this.shootSup = shootSup;
+        this.shootPosSup = shootPosSup;
+        this.intakePosSup = intakePosSup;
+        this.ampPosSup = ampPosSup;
+
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intakeSubsystem);
+    }
+
+    public void handleWheels() {
+        if (shootSup.getAsBoolean() && currPosition == Position.SHOOT) {
+            intakeSubsystem.setSpeed(0.35, false);
+            return;
+        }
+        if (shootSup.getAsBoolean() && currPosition == Position.AMP) {
+            intakeSubsystem.setSpeed(-0.525, false);
+            return;
+        }
+        if (shootSup.getAsBoolean() && currPosition == Position.INTAKE) {
+            intakeSubsystem.setSpeed(-0.35, false);
+            return;
+        }
+        intakeSubsystem.stop();
+    }
+
+    public void handlePosition() {
+        if (shootPosSup.getAsBoolean()) {
+            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
+            currPosition = Position.SHOOT;
+            return;
+        }
+        if (intakePosSup.getAsBoolean()) {
+            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Intake));
+            currPosition = Position.INTAKE;
+            return;
+        }
+        if (ampPosSup.getAsBoolean()) {
+            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Amp));
+            currPosition = Position.AMP;
+            return;
+        }
     }
 
     // Called when the command is initially scheduled.
@@ -39,15 +88,10 @@ public class Intake extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (intake.getAsBoolean()) {
-            intakeSubsystem.setSpeed(0.35, false);
-            return;
-        }
-        if (amp.getAsBoolean()) {
-            intakeSubsystem.setSpeed(-0.525, false);
-            return;
-        }
-        intakeSubsystem.stop();
+
+        handleWheels();
+        handlePosition();
+
     }
 
 

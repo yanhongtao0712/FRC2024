@@ -19,7 +19,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
+import frc.team7520.robot.commands.Intake;
+import frc.team7520.robot.commands.Shooter;
 import frc.team7520.robot.commands.TeleopDrive;
+import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
+import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
 import java.io.File;
@@ -37,9 +41,16 @@ public class RobotContainer
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
             "swerve/neo"));
 
+    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
+
+    private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+
+    private final XboxController operatorController =
+            new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -63,6 +74,18 @@ public class RobotContainer
                 driverController::getLeftBumper
         );
 
+        Shooter shooter = new Shooter(shooterSubsystem,
+                operatorController::getLeftTriggerAxis,
+                operatorController::getLeftBumper
+        );
+
+        Intake intake = new Intake(intakeSubsystem,
+                operatorController::getRightBumper,
+                operatorController::getYButton,
+                operatorController::getAButton,
+                operatorController::getBButton
+        );
+
         // Old drive method
         // like in video games
         // Easier to learn, harder to control
@@ -75,6 +98,8 @@ public class RobotContainer
                 () -> driverController.getRawAxis(2), () -> true);
 
         drivebase.setDefaultCommand(closedAbsoluteDrive);
+        shooterSubsystem.setDefaultCommand(shooter);
+        intakeSubsystem.setDefaultCommand(intake);
     }
 
     /**

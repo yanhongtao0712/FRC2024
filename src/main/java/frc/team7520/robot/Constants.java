@@ -69,7 +69,7 @@ public final class Constants {
             public static final double GearAnglePerMotorRev = 360/GearRatio;
             public static final double ConversionFactor = 1/GearRatio;
 
-            public static final double Floor = 55.2 * GearAnglePerMotorRev;
+            public static final double Intake = 55.2 * GearAnglePerMotorRev;
             public static final double Amp = 21.809415817260742 * GearAnglePerMotorRev;
             public static final double Shoot = 0;
 
@@ -83,7 +83,7 @@ public final class Constants {
 
             public static final double SmartMaxVel = 30000000;
             public static final double SmartMinVel = 0;
-            public static final double SmartAccel = 20000;
+            public static final double SmartAccel = 40000;
             public static final double SmartErr = 0.01;
             public static final int SlotID = 0;
         }
