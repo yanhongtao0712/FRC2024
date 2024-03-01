@@ -69,6 +69,11 @@ public final class Constants {
         public static final double DRIVE_GEAR_RATIO = 8.14 / 0.95; // add 0.95 to match the actual measurement
         public static final double ANGLE_GEAR_RATIO = 150/7d;
     }
+    // Swerve 2 is L1,
+    public static class Swerve2 {
+        public static final double DRIVE_GEAR_RATIO = 8.14;
+        public static final double ANGLE_GEAR_RATIO = 150/7d;
+    }
 
     public static class Telemetry {
 

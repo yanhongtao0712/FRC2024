@@ -57,6 +57,9 @@ public class RobotContainer
 
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
+    private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
+    private final IntakePivot IntakePivotSubsystem = IntakePivot.getInstance();
+
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
     private final LED LEDSubsystem = LED.getInstance();
 
@@ -179,6 +182,9 @@ public class RobotContainer
                 new InstantCommand(()->{
                         intakeSubsystem.setAutoSpeed(0.525, false);
                 }));
+
+                // Configure the trigger bindings
+        configureBindings();
 
         // Left joystick is the angle of the robot
         AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
