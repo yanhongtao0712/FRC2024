@@ -43,12 +43,9 @@ import java.io.File;
 public class RobotContainer
 {
     // Subsystems
-    private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-            "swerve/neo"));
-
-    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
-
-    private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
+    private final SwerveSubsystem drivebase;
+    private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
+    private final IntakePivot IntakePivotSubsystem = IntakePivot.getInstance();
 
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
     private final LED LEDSubsystem = LED.getInstance();
@@ -77,6 +74,18 @@ public class RobotContainer
         CameraServer.startAutomaticCapture();
 
         // Configure the trigger bindings
+        // Load different setting for Swerve 2 or 3
+        if(Constants.Drivebase.SWERVE_BASE_NUMBER==3)
+        {
+                drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                "swerve/neo"));
+        }
+        else
+        {
+                drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                "swerve2/neo"));       
+        }
+                // Configure the trigger bindings
         configureBindings();
 
         // Left joystick is the angle of the robot
