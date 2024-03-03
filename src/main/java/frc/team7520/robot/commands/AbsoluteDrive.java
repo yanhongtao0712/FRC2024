@@ -110,6 +110,8 @@ public class AbsoluteDrive extends Command {
             SmartDashboard.putNumber("Odometer.Y", swerve.getPose().getY());
             SmartDashboard.putNumber("Odometer.Angle", swerve.getPose().getRotation().getRadians());
             SmartDashboard.putNumber("targetAngle", Math.atan2(headingHorizontal.getAsDouble(),headingVertical.getAsDouble()));
+            SmartDashboard.putNumber("Odometer.Angle", swerve.getPose().getRotation().getDegrees());
+            
         }
 
         // Prevent Movement After Auto
