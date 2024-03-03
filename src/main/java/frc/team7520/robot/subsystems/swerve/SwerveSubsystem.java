@@ -322,6 +322,8 @@ public class SwerveSubsystem extends SubsystemBase {
     public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, Rotation2d angle) {
         xInput = Math.pow(xInput, 3);
         yInput = Math.pow(yInput, 3);
+
+        swerveDrive.swerveController.lastAngleScalar = angle.getRadians();
         return swerveDrive.swerveController.getTargetSpeeds(xInput,
                 yInput,
                 angle.getRadians(),

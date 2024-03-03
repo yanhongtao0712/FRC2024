@@ -1,4 +1,4 @@
-package frc.team7520.robot.subsystems.swerve;
+package frc.team7520.robot.subsystems;
 
 
 import com.ctre.phoenix.led.*;
@@ -40,8 +40,8 @@ public class LED extends SubsystemBase {
     }
 
     public void test(){
-//        Animation animation = new RainbowAnimation(255, 0.75, 100);
-        Animation animation = new ColorFlowAnimation(255, 0, 0, 0,  0.75, 100, ColorFlowAnimation.Direction.Forward);
+        Animation animation = new RainbowAnimation(255, 0.75, 100);
+//        Animation animation = new ColorFlowAnimation(0, 255, 0, 0,  0.75, 100, ColorFlowAnimation.Direction.Forward);
         candle.animate(animation);
     }
 }
