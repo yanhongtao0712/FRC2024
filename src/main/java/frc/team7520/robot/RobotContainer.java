@@ -10,6 +10,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -39,8 +40,9 @@ public class RobotContainer
 {
     // Subsystems
     private final SwerveSubsystem drivebase;
-    private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
-    private final IntakePivot IntakePivotSubsystem = IntakePivot.getInstance();
+    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
+
+    private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
@@ -58,12 +60,14 @@ public class RobotContainer
         {
                 drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                 "swerve/neo"));
+                
         }
         else
         {
                 drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                 "swerve2/neo"));       
         }
+        SmartDashboard.putNumber("Swerve Base:", Constants.Drivebase.SWERVE_BASE_NUMBER);
                 // Configure the trigger bindings
         configureBindings();
 

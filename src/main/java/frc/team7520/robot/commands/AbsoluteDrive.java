@@ -72,6 +72,9 @@ public class AbsoluteDrive extends Command {
         this.CCWSpin = CCWSpin;
         this.CWSpin = CWSpin;
 
+        SmartDashboard.putNumber("getX", vX.getAsDouble());
+                SmartDashboard.putNumber("getY", vY.getAsDouble());
+                SmartDashboard.putNumber("getDirection", headingHorizontal.getAsDouble());
         addRequirements(swerve);
     }
 
@@ -87,15 +90,30 @@ public class AbsoluteDrive extends Command {
 
         ChassisSpeeds desiredSpeeds;
 
-        if (CWSpin.getAsBoolean()) {
+        if (CWSpin.getAsBoolean()) 
+        {
             desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().minus(Rotation2d.fromDegrees(90)));
-        } else if (CCWSpin.getAsBoolean()) {
+        } 
+        else if (CCWSpin.getAsBoolean()) 
+        {
             desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),swerve.getHeading().plus(Rotation2d.fromDegrees(90)));
-        } else {
+        } 
+        else 
+        {
             // Get the desired chassis speeds based on a 2 joystick module.
             desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
                     headingHorizontal.getAsDouble(),
                     headingVertical.getAsDouble());
+            SmartDashboard.putNumber("desiredSpeed.headingH", headingHorizontal.getAsDouble());
+            SmartDashboard.putNumber("desiredSpeed.headingV", headingVertical.getAsDouble());
+            SmartDashboard.putNumber("desiredSpeed.x", desiredSpeeds.vxMetersPerSecond);
+            SmartDashboard.putNumber("desiredSpeed.y", desiredSpeeds.vyMetersPerSecond);
+            SmartDashboard.putNumber("desiredSpeed.omega", desiredSpeeds.omegaRadiansPerSecond);
+            SmartDashboard.putNumber("Robot Yaw",swerve.getHeading().getDegrees());
+            SmartDashboard.putNumber("Odometer.X", swerve.getPose().getX());
+            SmartDashboard.putNumber("Odometer.Y", swerve.getPose().getY());
+            SmartDashboard.putNumber("Odometer.Angle", swerve.getPose().getRotation().getDegrees());
+            
         }
 
         // Prevent Movement After Auto
@@ -120,7 +138,8 @@ public class AbsoluteDrive extends Command {
         SmartDashboard.putString("Translation", translation.toString());
 
         // Make the robot move
-        swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true);
+        double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 && (Math.abs(headingVertical.getAsDouble()) < 0.1))? 0:desiredSpeeds.omegaRadiansPerSecond;
+        swerve.drive(translation, omega, true);
 
     }
 
