@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants;
+import frc.team7520.robot.util.TargetDetection;
+import frc.team7520.robot.util.RobotMoveTargetParameters;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.math.SwerveMath;
@@ -29,13 +31,15 @@ import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
-import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 import java.io.File;
 
 import static frc.team7520.robot.Constants.Telemetry.SWERVE_VERBOSITY;
 
 public class SwerveSubsystem extends SubsystemBase {
+
+    private TargetDetection   m_TargetTest = new TargetDetection("HD_Pro_Webcam_C920", TargetDetection.PipeLineType.APRIL_TAG);
+    private TargetDetection   m_TargetGamePiece = new TargetDetection("SL-Camera-1", TargetDetection.PipeLineType.COLORED_SHAPE);
 
     /**
      * Swerve drive object.
@@ -395,4 +399,27 @@ public class SwerveSubsystem extends SubsystemBase {
     public void addFakeVisionReading() {
         swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
     }
+
+
+    /**
+     * Turn the robot on the spot to an angle
+     * Using Kinematics to calculate the swerve state
+     * Can be use for relative angle turnning.
+     * @param angle in radians
+     * @param time
+     */
+
+    public Pose2d GetPhotonvisionPose2d()
+    {
+        // this is new for game piece
+      RobotMoveTargetParameters data = m_TargetTest.GetSwerveTrainMoveParameters();
+      return new Pose2d(
+        new Translation2d(
+            -data.move.getX(),
+            -data.move.getY()
+        ),
+        data.turn
+      );
+    }
+
 }
