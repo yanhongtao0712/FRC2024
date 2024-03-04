@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.team7520.robot.util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +21,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.constants.AutoConstants;
-import frc.robot.subsystems.swerve.SwerveBase;
+//import frc.robot.constants.AutoConstants;
+//import frc.robot.subsystems.swerve.SwerveBase;
+import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
 public class PathPlannerHelper {
     static Pose2d lastPhotonPose2d;
@@ -43,23 +44,15 @@ public class PathPlannerHelper {
         };
     }
 
-    public static void initializeAutoBuilder(SwerveBase s_Swerve){
-        AutoBuilder.configureHolonomic(
-            ()->s_Swerve.getPose(),
-            (pose) -> {s_Swerve.resetOdometry(pose);},
-            ()->s_Swerve.getChassisSpeeds(),
-            (chassisSpeeds) -> {s_Swerve.setChassisSpeeds(chassisSpeeds,false);},
-            AutoConstants.config,
-            getAllianceColorBooleanSupplier(),
-            s_Swerve
-        );
+    public static void initializeAutoBuilder(SwerveSubsystem s_Swerve){
+        s_Swerve.setupPathPlanner();
     }
-    public static Command GoToPoseCommand_AprilTag_1Step(SwerveBase drivetrainSubsystem)
+    public static Command GoToPoseCommand_AprilTag_1Step(SwerveSubsystem drivetrainSubsystem)
     {
         lastPhotonPose2d = null;
         lastEndPose2d = null;
         lastMidPose2d = null;
-        SwerveBase s_Swerve = drivetrainSubsystem;
+        SwerveSubsystem s_Swerve = drivetrainSubsystem;
         return new SequentialCommandGroup(
             new InstantCommand(()->{
                 var photonPose = GetPhotonPose2d(s_Swerve);
@@ -76,12 +69,12 @@ public class PathPlannerHelper {
         );
     }
 
-    public static Command GoToPoseCommand_AprilTag_2Steps(SwerveBase drivetrainSubsystem)
+    public static Command GoToPoseCommand_AprilTag_2Steps(SwerveSubsystem drivetrainSubsystem)
     {
         lastPhotonPose2d = null;
         lastEndPose2d = null;
         lastMidPose2d = null;
-        SwerveBase s_Swerve = drivetrainSubsystem;
+        SwerveSubsystem s_Swerve = drivetrainSubsystem;
         return new SequentialCommandGroup(
             new InstantCommand(()->{
                 var photonPose = GetPhotonPose2d(s_Swerve);
@@ -131,7 +124,7 @@ public class PathPlannerHelper {
         );
     }
 
-    public static Command GoToPoseCommand_Preplanned(SwerveBase s_Swerve, String pathName)
+    public static Command GoToPoseCommand_Preplanned(SwerveSubsystem s_Swerve, String pathName)
     {
         lastPhotonPose2d = null;
         lastEndPose2d = null;
@@ -145,7 +138,7 @@ public class PathPlannerHelper {
     } 
     
 
-    private static Pose2d GetPhotonPose2d(SwerveBase s_Swerve)
+    private static Pose2d GetPhotonPose2d(SwerveSubsystem s_Swerve)
     {
         var photonPose = s_Swerve.GetPhotonvisionPose2d();
         photonPose = ConvertToAbsolutePose(s_Swerve, photonPose);
@@ -154,7 +147,7 @@ public class PathPlannerHelper {
         return photonPose;
     }
 
-    private static Pose2d ConvertToAbsolutePose(SwerveBase s_Swerve, Pose2d srcPose)
+    private static Pose2d ConvertToAbsolutePose(SwerveSubsystem s_Swerve, Pose2d srcPose)
     {
         if (srcPose == null) return null;
 
@@ -175,7 +168,7 @@ public class PathPlannerHelper {
 
 
 
-    private static Command goToPose_photon(SwerveBase s_Swerve, Pose2d endPose)
+    private static Command goToPose_photon(SwerveSubsystem s_Swerve, Pose2d endPose)
     {
         if (endPose == null) return null;
 
@@ -207,7 +200,7 @@ public class PathPlannerHelper {
         return AutoBuilder.followPath(path);
     }
 
-    private static Command goToPose_photon_midPose(SwerveBase s_Swerve, Pose2d endPose)
+    private static Command goToPose_photon_midPose(SwerveSubsystem s_Swerve, Pose2d endPose)
     {
         if (endPose == null) return null;
 
@@ -276,7 +269,7 @@ public class PathPlannerHelper {
         return totalDistance;
     }
     
-    public static Command goToPose(SwerveBase s_Swerve, Pose2d endPose)
+    public static Command goToPose(SwerveSubsystem s_Swerve, Pose2d endPose)
     {
         if (endPose == null) return null;
 
@@ -316,7 +309,7 @@ public class PathPlannerHelper {
         return AutoBuilder.followPath(path);
     }
 
-    private static Command goToPoseCommand_preplanned(SwerveBase s_Swerve, String pathName)
+    private static Command goToPoseCommand_preplanned(SwerveSubsystem s_Swerve, String pathName)
     {
         //s_Swerve.resetOdometry(s_Swerve.getPose());
         PathPlannerPath path = PathPlannerPath.fromPathFile(

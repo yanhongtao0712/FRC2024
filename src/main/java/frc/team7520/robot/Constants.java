@@ -4,6 +4,8 @@
 
 package frc.team7520.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -127,5 +129,31 @@ public final class Constants {
         public static final double kD = 0.0;
         public static final double kFF = 0.0006;
 
+    public static final class CameraConstants {
+        public static final int CAMERA_PITCH_ANGLE = 1;
+        public static final double SPEAKER_SUBWOOFER_WIDTH = 0.92;
+        public static final double AMP_WIDTH = 0;
+        public static final double SPEAKER_APRIL_TAG_WIDTH = 0.43;
+        public static final double APRILTAG_WIDTH = 0.135; //  0.27 / 2
+        public static final double SRC_WIDTH = 0.5;
+        
+        public static final double ROLL = -Math.PI / 2;
+        public static final double PITCH = 0.0;
+        public static final double YAW = 0.0;
+        public static final Transform3d KCAMERA_TO_ROBOT = new Transform3d(
+                new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(8),
+                        Units.inchesToMeters(22.125)),
+                new Rotation3d(ROLL, PITCH, YAW)).inverse();
+
+        public static final String CAMERA_NAME = "CSI";
+        public static final double LARGEST_DISTANCE = 0.1;
+
+        
+        public static final double cameraHeight = 0.67; //0.77 original
+        public static final double targetHeight = 0;
+        //public static final double cameraPitch = -0.33144444;
+        public static final double cameraPitch = -0.698;
+
+        public static final double goalDistance = 0.0;
     }
 }
