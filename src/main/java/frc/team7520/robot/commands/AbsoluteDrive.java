@@ -107,8 +107,8 @@ public class AbsoluteDrive extends Command {
             SmartDashboard.putNumber("Robot Yaw",swerve.getHeading().getDegrees());
             SmartDashboard.putNumber("Odometer.X", swerve.getPose().getX());
             SmartDashboard.putNumber("Odometer.Y", swerve.getPose().getY());
-            SmartDashboard.putNumber("Odometer.Angle", swerve.getPose().getRotation().getDegrees());
-            
+            SmartDashboard.putNumber("Odometer.Angle", swerve.getPose().getRotation().getRadians());
+            SmartDashboard.putNumber("targetAngle", Math.atan2(headingHorizontal.getAsDouble(),headingVertical.getAsDouble()));
         }
 
         // Prevent Movement After Auto
@@ -133,7 +133,8 @@ public class AbsoluteDrive extends Command {
         SmartDashboard.putString("Translation", translation.toString());
 
         // Make the robot move
-        double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 && (Math.abs(headingVertical.getAsDouble()) < 0.1))? 0:desiredSpeeds.omegaRadiansPerSecond;
+ //       double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 && (Math.abs(headingVertical.getAsDouble()) < 0.1))? 0:desiredSpeeds.omegaRadiansPerSecond;
+        double omega = desiredSpeeds.omegaRadiansPerSecond;
         swerve.drive(translation, omega, true);
 
     }
