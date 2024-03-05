@@ -272,6 +272,12 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveDrive.zeroGyro();
     }
 
+    public void myReset()
+    {
+        zeroGyro();
+        resetOdometry(new Pose2d());
+    }
+
     /**
      * Sets the drive motors to brake/coast mode.
      *
@@ -414,14 +420,12 @@ public class SwerveSubsystem extends SubsystemBase {
     public Pose2d GetPhotonvisionPose2d()
     {
         // this is new for game piece
-      RobotMoveTargetParameters data = m_TargetTest.GetSwerveTrainMoveParameters();
-      return new Pose2d(
-        new Translation2d(
-            -data.move.getX(),
-            -data.move.getY()
-        ),
-        data.turn
-      );
+        Pose2d data = m_TargetTest.GetCurrentRobotFieldPose();
+        if(data == null) {
+            System.out.println("Target not found");
+           return null;
+       } 
+       return data;
     }
 
 }

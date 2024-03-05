@@ -1,6 +1,8 @@
 package frc.team7520.robot.util;
 
 import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -338,5 +340,99 @@ public class PathPlannerHelper {
 
         // Create a path following command using AutoBuilder. This will also trigger event markers.
         return AutoBuilder.followPath(path);
+    }
+
+
+
+    
+
+    public static Command GoToCommand_AprilTag(SwerveSubsystem s_Swerve, Integer AprilTagId)
+    {
+        Dictionary<Integer, Pose2d> dict_Poses = new Hashtable<>();
+        
+        dict_Poses.put(3, new Pose2d(
+            new Translation2d(15.74, 5.55), 
+            Rotation2d.fromDegrees(-180)
+        ));
+        dict_Poses.put(4, new Pose2d(
+            new Translation2d(15.74, 5.55), 
+            Rotation2d.fromDegrees(-180)
+        ));
+        dict_Poses.put(5, new Pose2d(
+            new Translation2d(14.7, 7.88), 
+            Rotation2d.fromDegrees(-90)
+        ));
+
+        dict_Poses.put(6, new Pose2d(
+            new Translation2d(1.84, 7.88), 
+            Rotation2d.fromDegrees(-90)
+        ));
+        dict_Poses.put(7, new Pose2d(
+            new Translation2d(0.90, 5.55), 
+            Rotation2d.fromDegrees(0)
+        ));
+        dict_Poses.put(8, new Pose2d(
+            new Translation2d(0.95, 4.98), 
+            Rotation2d.fromDegrees(0)
+        ));
+
+
+        dict_Poses.put(14, new Pose2d(
+            new Translation2d(6, 4.11), 
+            Rotation2d.fromDegrees(0)
+        ));
+
+        lastEndPose2d = dict_Poses.get(AprilTagId);
+        lastPhotonPose2d = null;
+
+        return
+             ( 
+            new InstantCommand(()->{
+            var photonPose = s_Swerve.GetPhotonvisionPose2d();
+            if (photonPose != null)
+            {
+                s_Swerve.resetOdometry(photonPose); 
+                lastPhotonPose2d = photonPose;
+
+                SmartDashboard.putNumber("Photon cart pos x", photonPose.getX());
+                SmartDashboard.putNumber("Photon cart pos y", photonPose.getY());
+                SmartDashboard.putNumber("Photon cart pos delta", photonPose.getRotation().getDegrees());
+
+                SmartDashboard.putNumber("april tag pos x", lastEndPose2d.getX());
+                SmartDashboard.putNumber("april tag pos y", lastEndPose2d.getY());
+                SmartDashboard.putNumber("april tag pos delta", lastEndPose2d.getRotation().getDegrees());
+
+                Pose2d pose = s_Swerve.getPose();
+                SmartDashboard.putNumber("Odometer.X harry", pose.getX());
+                SmartDashboard.putNumber("Odometer.Y harry", pose.getY());
+                SmartDashboard.putNumber("Odometer.Angle harry", pose.getRotation().getDegrees());
+
+            }
+            else
+            {
+                lastEndPose2d = null;
+                lastPhotonPose2d = null;
+            }
+        })
+        )
+        /*
+        .andThen(goToPose_photon_midPose(s_Swerve, endPose))
+        .andThen(
+            new InstantCommand(()->{
+            var photonPose = s_Swerve.GetPhotonvisionPose2d();
+            if (photonPose != null)
+            {
+                s_Swerve.resetOdometry(photonPose);                
+            }
+        })
+        )
+        */
+        //*
+        .andThen(
+            goToPose_photon(s_Swerve, lastEndPose2d)
+            )
+             //*/
+        ;
+
     }
 }
