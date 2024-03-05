@@ -370,7 +370,7 @@ public class TargetDetection {
                     case 3: //speaker
                         para.x = Constants.CameraConstants.SPEAKER_SUBWOOFER_WIDTH;
                         para.y = (Constants.CameraConstants.SPEAKER_APRIL_TAG_WIDTH + Constants.CameraConstants.APRILTAG_WIDTH);    break;
-                    case 4: //
+                    case 4: //speaker
                         para.x = Constants.CameraConstants.SPEAKER_SUBWOOFER_WIDTH;    break;
                     case 5: //amp
                         para.x = 0;    break;

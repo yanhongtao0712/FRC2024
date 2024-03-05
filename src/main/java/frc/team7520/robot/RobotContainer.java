@@ -26,6 +26,7 @@ import frc.team7520.robot.commands.TeleopDrive;
 import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
 import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
+import frc.team7520.robot.util.PathPlannerHelper;
 
 import java.io.File;
 
@@ -69,6 +70,8 @@ public class RobotContainer
         }
         SmartDashboard.putNumber("Swerve Base:", Constants.Drivebase.SWERVE_BASE_NUMBER);
                 // Configure the trigger bindings
+
+
         configureBindings();
 
         // Left joystick is the angle of the robot
@@ -137,10 +140,26 @@ public class RobotContainer
     {
         // Zero gyro
         new JoystickButton(driverController, XboxController.Button.kA.value)
-                .onTrue(new InstantCommand(drivebase::zeroGyro));
+                //.onTrue(new InstantCommand(drivebase::zeroGyro));
+                .onTrue(new InstantCommand(drivebase::myReset));
         // X/Lock wheels
+        /*
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
+         */
+        new JoystickButton(driverController, XboxController.Button.kX.value)
+                .onTrue(
+                        /*
+                        PathPlannerHelper.GoToPoseCommand_Preplanned(
+                                drivebase,
+                                "turn 90"
+                        )
+                         */
+                        PathPlannerHelper.GoToCommand_AprilTag(
+                                drivebase, 4
+                                )
+
+                        );
     }
 
 
