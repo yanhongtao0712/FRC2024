@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.4962635188428273,
-      "y": 5.501160826883058
-    },
-    "rotation": 0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -20,7 +14,19 @@
         {
           "type": "path",
           "data": {
+            "pathName": "TakeGP1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "GP1toSpeaker1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
           }
         }
       ]
