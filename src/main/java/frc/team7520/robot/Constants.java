@@ -71,7 +71,7 @@ public final class Constants {
     }
     // Swerve 2 is L1,
     public static class Swerve2 {
-        public static final double DRIVE_GEAR_RATIO = 8.14;
+        public static final double DRIVE_GEAR_RATIO = 8.14 / 0.95;
         public static final double ANGLE_GEAR_RATIO = 150/7d;
     }
 
