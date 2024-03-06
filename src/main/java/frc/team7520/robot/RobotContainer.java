@@ -50,8 +50,6 @@ public class RobotContainer
 
     private final LED LEDSubsystem = LED.getInstance();
 
-    private final DigitalInput input = new DigitalInput(0);
-
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -95,7 +93,7 @@ public class RobotContainer
                 operatorController::getAButton,
                 operatorController::getBButton,
                 operatorController::getXButton,
-                () -> input.get()
+                intakeSubsystem::getSwitchVal
         );
 
         // Old drive method
@@ -112,7 +110,7 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
-        LEDSubsystem.setDefaultCommand(LEDSubsystem.IndicateGamePiece(() -> input.get()));
+        LEDSubsystem.setDefaultCommand(LEDSubsystem.IndicateGamePiece(intakeSubsystem::getSwitchVal));
     }
 
     /**

@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants.IntakeConstants;
@@ -25,6 +26,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private RelativeEncoder pivotEncoder;
     private final SparkPIDController pivotPID = pivot.getPIDController();
     private final SparkPIDController wheelsPID = wheels.getPIDController();
+
+    private final DigitalInput input = new DigitalInput(0);
 
     private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
@@ -131,6 +134,10 @@ public class IntakeSubsystem extends SubsystemBase {
         } else {
             wheels.set(speed);
         }
+    }
+
+    public boolean getSwitchVal() {
+        return input.get();
     }
 
     @Override
