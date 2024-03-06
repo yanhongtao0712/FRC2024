@@ -8,13 +8,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Speaker1toGP2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GP2toSpeaker1"
+            "pathName": "X+1m"
           }
         }
       ]
