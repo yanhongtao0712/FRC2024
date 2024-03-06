@@ -4,6 +4,7 @@
     {
       "anchor": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "x": 2.7,
         "y": 6.8
       },
@@ -20,12 +21,22 @@
         "x": 1.922471915119269,
         "y": 6.217553663177502
 >>>>>>> 57d9daa (Add Chooser to simplify the test)
+=======
+        "x": 2.602,
+        "y": 6.8
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.175912984997229,
+        "y": 6.285029188102677
+>>>>>>> 4abddb4 (Update the auto Route)
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
+<<<<<<< HEAD
 <<<<<<< HEAD
         "x": 1.24,
         "y": 5.56
@@ -41,6 +52,14 @@
         "x": 1.9587449701215194,
         "y": 5.954574014411187
 >>>>>>> 57d9daa (Add Chooser to simplify the test)
+=======
+        "x": 1.24,
+        "y": 5.56
+      },
+      "prevControl": {
+        "x": 1.9088420863901518,
+        "y": 5.56
+>>>>>>> 4abddb4 (Update the auto Route)
       },
       "nextControl": null,
       "isLocked": false,
@@ -70,12 +89,16 @@
   "folder": null,
   "previewStartingState": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "rotation": 33.98076920747871,
     "velocity": 0
   },
   "useDefaultConstraints": false
 =======
     "rotation": 0,
+=======
+    "rotation": 33.98076920747871,
+>>>>>>> 4abddb4 (Update the auto Route)
     "velocity": 0
   },
   "useDefaultConstraints": true
