@@ -30,6 +30,7 @@ public class RoutePlanner{
     public void ConfigureAutoPathProfile()
     {
         // Pickup one game piece from position 1 route
+        new PathPlannerAuto("AutoTest");
         new PathPlannerAuto("Profile-11");
         new PathPlannerAuto("Profile-12");
         new PathPlannerAuto("Profile-13");
