@@ -356,7 +356,7 @@ public class PathPlannerHelper {
         ));
         dict_Poses.put(4, new Pose2d(
             new Translation2d(15.74, 5.55), 
-            Rotation2d.fromDegrees(-180)
+            Rotation2d.fromDegrees(180)
         ));
         dict_Poses.put(5, new Pose2d(
             new Translation2d(14.7, 7.88), 
@@ -389,6 +389,7 @@ public class PathPlannerHelper {
              ( 
             new InstantCommand(()->{
             var photonPose = s_Swerve.GetPhotonvisionPose2d();
+            SmartDashboard.putBoolean("Photon found", (photonPose != null));
             if (photonPose != null)
             {
                 s_Swerve.resetOdometry(photonPose); 
@@ -407,6 +408,13 @@ public class PathPlannerHelper {
                 SmartDashboard.putNumber("Odometer.Y harry", pose.getY());
                 SmartDashboard.putNumber("Odometer.Angle harry", pose.getRotation().getDegrees());
 
+                CommandScheduler.getInstance().schedule(
+                    goToPose_photon(s_Swerve, lastEndPose2d) 
+                    .andThen(goToPose(s_Swerve, lastEndPose2d))    
+                    .andThen(goToPose(s_Swerve, lastEndPose2d))  
+                    .andThen(goToPose(s_Swerve, lastEndPose2d))  
+                );
+
             }
             else
             {
@@ -418,7 +426,7 @@ public class PathPlannerHelper {
         /*
         .andThen(goToPose_photon_midPose(s_Swerve, endPose))
         .andThen(
-            new InstantCommand(()->{
+            new InstantCommand(()->{ 
             var photonPose = s_Swerve.GetPhotonvisionPose2d();
             if (photonPose != null)
             {
@@ -427,11 +435,11 @@ public class PathPlannerHelper {
         })
         )
         */
-        //*
+        /*
         .andThen(
-            goToPose_photon(s_Swerve, lastEndPose2d)
-            )
-             //*/
+            goToPose_photon(s_Swerve, lastEndPose2d)           
+        )
+*/
         ;
 
     }
