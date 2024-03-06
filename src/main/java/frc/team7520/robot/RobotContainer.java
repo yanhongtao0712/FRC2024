@@ -307,7 +307,7 @@ public class RobotContainer
 <<<<<<< HEAD
                         //drivebase.resetOdometry(new Pose2d());
 =======
-                        drivebase.resetOdometry(new Pose2d());
+                        //drivebase.resetOdometry(new Pose2d());
 >>>>>>> b067174 (make chooser working)
                         CommandScheduler.getInstance().schedule(
                                 myRoute.getPathPlanerRoute()
