@@ -11,7 +11,8 @@ import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 import swervelib.telemetry.SwerveDriveTelemetry;
-
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
  * class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do
@@ -155,5 +156,12 @@ public final class Constants {
         public static final double cameraPitch = -0.698;
 
         public static final double goalDistance = 0.0;
+    }
+
+    public static final class StartPosition {
+        public static Pose2d startPosition_1 = new Pose2d(1.24, 5.56, new Rotation2d(0));
+        public static Pose2d startPosition_2 = new Pose2d(0.8, 4.6, new Rotation2d(0));  // Angle to be determined
+        public static Pose2d startPosition_3 = new Pose2d(0.8, 6.5, new Rotation2d(0));  // Angle to be determined
+
     }
 }
