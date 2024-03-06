@@ -5,11 +5,14 @@
 
 package frc.team7520.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -17,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team7520.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
@@ -27,6 +31,7 @@ import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
 import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 import frc.team7520.robot.util.PathPlannerHelper;
+import frc.team7520.robot.util.RoutePlanner;
 
 import java.io.File;
 
@@ -52,6 +57,11 @@ public class RobotContainer
     private final XboxController operatorController =
             new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
+    // Create path chooser for testing purpose, verify if the swerve could move as expected
+    SendableChooser<Command> pathChooser = new SendableChooser<>();
+    // Create autoChooser for automomous
+    SendableChooser<Command> autoChooser = new SendableChooser<>();
+    public RoutePlanner myRoute = new RoutePlanner(pathChooser, autoChooser);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
@@ -72,7 +82,7 @@ public class RobotContainer
                 // Configure the trigger bindings
 
 
-        configureBindings();
+
 
         // Left joystick is the angle of the robot
         AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
@@ -115,6 +125,15 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
+
+        // Display Chooser 
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Mode", autoChooser);
+        SmartDashboard.putData("Test Route", pathChooser); 
+        myRoute.ConfigureAutoPathProfile();
+        myRoute.ConfigureManualPathProfile();
+        
+        configureBindings();
     }
 
     /**
@@ -149,17 +168,18 @@ public class RobotContainer
          */
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .onTrue(
-                        /*
-                        PathPlannerHelper.GoToPoseCommand_Preplanned(
-                                drivebase,
-                                "turn 90"
-                        )
-                         */
                         PathPlannerHelper.GoToCommand_AprilTag(
                                 drivebase, 7
                                 )
-
                         );
+        // Run the command from path Chooser list
+        new JoystickButton(driverController, XboxController.Button.kY.value)
+                .onTrue(new InstantCommand(()->{
+                        //drivebase.resetOdometry(new Pose2d());
+                        CommandScheduler.getInstance().schedule(
+                                myRoute.getPathPlanerRoute()
+                        );
+                }));
     }
 
 
@@ -170,6 +190,7 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return drivebase.getPPAutoCommand("Demo1", true);
+       // return drivebase.getPPAutoCommand("Demo1", true);
+       return autoChooser.getSelected();
     }
 }
