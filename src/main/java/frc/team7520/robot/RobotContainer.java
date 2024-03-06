@@ -198,7 +198,7 @@ public class RobotContainer
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .onTrue(
                         PathPlannerHelper.GoToCommand_AprilTag(
-                                drivebase, 4
+                                drivebase, 7
                                 )
 
                         );
