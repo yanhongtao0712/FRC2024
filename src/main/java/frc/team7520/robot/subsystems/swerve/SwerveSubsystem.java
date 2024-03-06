@@ -278,7 +278,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void myReset()
     {
         zeroGyro();
-        resetOdometry(new Pose2d());
+        resetOdometry(Constants.StartPosition.startPosition_1);
     }
 
     /**
