@@ -13,13 +13,17 @@
         "y": 5.56
 =======
         "x": 0.0,
-        "y": 1.0
+        "y": 0.0
       },
       "prevControl": null,
       "nextControl": {
         "x": 0.0,
+<<<<<<< HEAD
         "y": 0.0
 >>>>>>> 57d9daa (Add Chooser to simplify the test)
+=======
+        "y": -1.0
+>>>>>>> b067174 (make chooser working)
       },
       "isLocked": false,
       "linkedName": null
@@ -35,12 +39,16 @@
         "y": 6.56
 =======
         "x": 0.0,
-        "y": 0.0
+        "y": -1.0
       },
       "prevControl": {
         "x": -6.123233995736766e-17,
+<<<<<<< HEAD
         "y": 1.0
 >>>>>>> 57d9daa (Add Chooser to simplify the test)
+=======
+        "y": 0.0
+>>>>>>> b067174 (make chooser working)
       },
       "nextControl": null,
       "isLocked": false,

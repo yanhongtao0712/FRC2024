@@ -304,7 +304,11 @@ public class RobotContainer
         // Run the command from path Chooser list
         new JoystickButton(driverController, XboxController.Button.kY.value)
                 .onTrue(new InstantCommand(()->{
+<<<<<<< HEAD
                         //drivebase.resetOdometry(new Pose2d());
+=======
+                        drivebase.resetOdometry(new Pose2d());
+>>>>>>> b067174 (make chooser working)
                         CommandScheduler.getInstance().schedule(
                                 myRoute.getPathPlanerRoute()
                         );
