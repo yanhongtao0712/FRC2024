@@ -57,6 +57,8 @@ public class RobotContainer
     private final XboxController operatorController =
             new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
+    private final Intake intake;
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
@@ -87,7 +89,7 @@ public class RobotContainer
                 operatorController::getLeftBumper
         );
 
-        Intake intake = new Intake(intakeSubsystem,
+        intake = new Intake(intakeSubsystem,
                 operatorController::getRightBumper,
                 operatorController::getYButton,
                 operatorController::getAButton,
@@ -110,7 +112,7 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
-        LEDSubsystem.setDefaultCommand(LEDSubsystem.IndicateGamePiece(intakeSubsystem::getSwitchVal));
+        LEDSubsystem.setDefaultCommand(LEDSubsystem.idle());
     }
 
     /**
@@ -140,6 +142,13 @@ public class RobotContainer
         // X/Lock wheels
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
+        
+        new Trigger(() -> intake.currPosition == Intake.Position.SHOOT)
+                .and(new JoystickButton(operatorController, XboxController.Button.kRightBumper.value))
+                        .whileTrue(new RepeatCommand(LEDSubsystem.intaking()));
+
+        new Trigger(intakeSubsystem::getSwitchVal)
+                .whileTrue(new RepeatCommand(LEDSubsystem.noteIn()));
     }
 
 

@@ -1,12 +1,17 @@
 package frc.team7520.robot.subsystems;
 
 
+import java.lang.annotation.AnnotationTypeMismatchException;
 import java.util.function.BooleanSupplier;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+import com.ctre.phoenix6.signals.Led2OnColorValue;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LED extends SubsystemBase {
@@ -23,6 +28,10 @@ public class LED extends SubsystemBase {
     private final static LED INSTANCE = new LED();
 
     public final static CANdle candle = new CANdle(17);
+    
+    private final Animation idleAnimation = new RainbowAnimation(255, 0.75, 100);
+    private final Animation intakingAnimation = new ColorFlowAnimation(255, 165, 0, 0, 1, 100, Direction.Forward);
+    private final Animation noteIn = new StrobeAnimation(0, 255, 0, 0, 0.4, 100);
 
 
     /**
@@ -44,21 +53,28 @@ public class LED extends SubsystemBase {
 
     }
 
-    public Command IndicateGamePiece(BooleanSupplier input){
+    public Command idle() {
         return run(
             () -> {
-                if (input.getAsBoolean()){
-                Animation animation = new ColorFlowAnimation(255, 0, 0, 0, 0.5, 66, Direction.Backward);
-                candle.animate(animation);
-                
-                }
-                else {
-                    Animation animation = new ColorFlowAnimation(0, 255, 0, 0, 0.5, 66, Direction.Forward);
-                    candle.animate(animation);
-                }
+                candle.animate(idleAnimation);
             }
         );
-//        Animation animation = new ColorFlowAnimation(0, 255, 0, 0,  0.75, 100, ColorFlowAnimation.Direction.Forward);
+    }
+
+    public InstantCommand intaking() {
+        return new InstantCommand(
+            () -> {
+                candle.animate(intakingAnimation);
+            }
+        );
+    }
+
+    public InstantCommand noteIn() {
+        return new InstantCommand(
+            () -> {
+                candle.animate(noteIn);
+            }
+        );
     }
 }
 
