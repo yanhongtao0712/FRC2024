@@ -55,7 +55,7 @@ public class RobotContainer
     private final XboxController operatorController =
             new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
-        // Create path chooser for testing purpose, verify if the swerve could move as expected
+    // Create path chooser for testing purpose, verify if the swerve could move as expected
     SendableChooser<Command> pathChooser = new SendableChooser<>();
     // Create autoChooser for automomous
     SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -80,7 +80,6 @@ public class RobotContainer
                 // Configure the trigger bindings
 
 
-        configureBindings();
 
 
         // Left joystick is the angle of the robot
@@ -128,7 +127,11 @@ public class RobotContainer
         // Display Chooser 
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);
-        SmartDashboard.putData("PathPlanner Route", pathChooser); 
+        SmartDashboard.putData("Test Route", pathChooser); 
+        myRoute.ConfigureAutoPathProfile();
+        myRoute.ConfigureManualPathProfile();
+        
+        configureBindings();
     }
 
     /**
@@ -163,16 +166,9 @@ public class RobotContainer
          */
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .onTrue(
-                        /*
-                        PathPlannerHelper.GoToPoseCommand_Preplanned(
-                                drivebase,
-                                "turn 90"
-                        )
-                         */
                         PathPlannerHelper.GoToCommand_AprilTag(
                                 drivebase, 4
                                 )
-
                         );
         // Run the command from path Chooser list
         new JoystickButton(driverController, XboxController.Button.kY.value)

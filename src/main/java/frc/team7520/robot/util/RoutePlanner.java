@@ -3,6 +3,8 @@ package frc.team7520.robot.util;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,16 +39,18 @@ public class RoutePlanner{
         new PathPlannerAuto("Profile-31");
         new PathPlannerAuto("Profile-32");
         new PathPlannerAuto("Profile-33");
+        SmartDashboard.putNumber("ConfigManualPath", 55);
     }
     public void ConfigureManualPathProfile()
     {
-        m_pathChooser.setDefaultOption("X+1m",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("X+1m")));
-        m_pathChooser.addOption("X-1m",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("X-1m")));
-        m_pathChooser.addOption("Y+1m",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("Y+1m")));
-        m_pathChooser.addOption("Y-1m",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("Y-1m")));
-        m_pathChooser.addOption("Turn+90",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("Turn+90")));
-        m_pathChooser.addOption("Turn-90",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("Turn-90")));
-        m_pathChooser.addOption("DriveCircle",new AutoBuilder().followPath(PathPlannerPath.fromPathFile("DriveCircle")));
+        m_pathChooser.setDefaultOption("X+1m",AutoBuilder.followPath(PathPlannerPath.fromPathFile("X+1m")));
+        m_pathChooser.addOption("X-1m", AutoBuilder.followPath(PathPlannerPath.fromPathFile("X-1m")));
+        m_pathChooser.addOption("Y+1m", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Y+1m")));
+        m_pathChooser.addOption("Y-1m", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Y-1m")));
+        m_pathChooser.addOption("Turn+90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn+90")));
+        m_pathChooser.addOption("Turn-90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn-90")));
+        m_pathChooser.addOption("DriveCircle", AutoBuilder.followPath(PathPlannerPath.fromPathFile("DriveCircle")));
+        SmartDashboard.putNumber("ConfigManualPath", 55);
 
     }
     /**
