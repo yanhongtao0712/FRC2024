@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -47,6 +48,10 @@ public class RobotContainer
 
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
+    private final LED LEDSubsystem = LED.getInstance();
+
+    private final DigitalInput input = new DigitalInput(0);
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -58,7 +63,6 @@ public class RobotContainer
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
-        LED.getInstance().test();
 
         CameraServer.startAutomaticCapture();
 
@@ -90,7 +94,8 @@ public class RobotContainer
                 operatorController::getYButton,
                 operatorController::getAButton,
                 operatorController::getBButton,
-                operatorController::getXButton
+                operatorController::getXButton,
+                () -> input.get()
         );
 
         // Old drive method
@@ -107,6 +112,7 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
+        LEDSubsystem.setDefaultCommand(LEDSubsystem.IndicateGamePiece(() -> input.get()));
     }
 
     /**

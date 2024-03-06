@@ -32,6 +32,10 @@ public class Shooter extends Command {
     public void execute() {
         double throttle = throttleSup.getAsDouble() * (invertSup.getAsBoolean() ? -1 : 1) * 1;
 
+        if (Math.abs(throttle) < 0.1) {
+            throttle = 0.1 * (invertSup.getAsBoolean() ? -1 : 1) * 1;
+        }
+
         shooterSubsystem.setSpeed(throttle, false);
     }
 

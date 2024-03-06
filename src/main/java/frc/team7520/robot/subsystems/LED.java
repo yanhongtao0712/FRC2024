@@ -1,7 +1,12 @@
 package frc.team7520.robot.subsystems;
 
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix.led.*;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LED extends SubsystemBase {
@@ -39,10 +44,21 @@ public class LED extends SubsystemBase {
 
     }
 
-    public void test(){
-        Animation animation = new RainbowAnimation(255, 0.75, 100);
+    public Command IndicateGamePiece(BooleanSupplier input){
+        return run(
+            () -> {
+                if (input.getAsBoolean()){
+                Animation animation = new ColorFlowAnimation(255, 0, 0, 0, 0.5, 66, Direction.Backward);
+                candle.animate(animation);
+                
+                }
+                else {
+                    Animation animation = new ColorFlowAnimation(0, 255, 0, 0, 0.5, 66, Direction.Forward);
+                    candle.animate(animation);
+                }
+            }
+        );
 //        Animation animation = new ColorFlowAnimation(0, 255, 0, 0,  0.75, 100, ColorFlowAnimation.Direction.Forward);
-        candle.animate(animation);
     }
 }
 
