@@ -14,8 +14,10 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.team7520.robot.Constants;
 import frc.team7520.robot.Constants.IntakeConstants;
 import frc.team7520.robot.util.DiffEncoder;
 
@@ -41,6 +43,11 @@ public class IntakeSubsystem extends SubsystemBase {
 //    public DiffEncoder diffedEncoder = new DiffEncoder(pivotAbsEncoder, pivotAbsEncoder);
 
     private final static IntakeSubsystem INSTANCE = new IntakeSubsystem();
+
+    DigitalInput input = new DigitalInput(0);
+    public static boolean AutoMode = false;    
+
+    public Constants.Position currPosition = Constants.Position.SHOOT;
 
     @SuppressWarnings("WeakerAccess")
     public static IntakeSubsystem getInstance() {
@@ -130,11 +137,29 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
 
-    public void setSpeed(double speed) {
+    public void setAutoSpeed(double speed) {
         setSpeed(speed, false);
+        AutoMode = true;
+    }
+
+    public void setAutoSpeed(double speed, boolean closedLoop) {
+        SmartDashboard.putBoolean("setAutoSpeed:", true); 
+        setSpeed(speed, closedLoop);
+        AutoMode = true;
+    }
+
+    public void turnOffAutoMode() {
+        AutoMode = false;
+        setSpeed(0, false);
+    }
+
+    public void setSpeed(double speed) {
+        if (!AutoMode)
+            setSpeed(speed, false);
     }
 
     public void setSpeed(double speed, boolean closedLoop) {
+        if (AutoMode) return;
         speed = slewRateLimiter.calculate(speed);
 
         if(closedLoop) {
@@ -160,11 +185,20 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("intake Switch", input.get()); 
         SmartDashboard.putNumber("pivotEncoder", pivotEncoder.getPosition());
         SmartDashboard.putNumber("DesiredDeg", DesiredPosition.getDegrees());
         SmartDashboard.putNumber("DesiredRot", DesiredPosition.getRotations());
         SmartDashboard.putNumber("diffedEncoder", getDiffedEncoder());
         SmartDashboard.putNumber("PivotAbsEncoder", pivotAbsEncoder.get());
         SmartDashboard.putNumber("wheelsAbsEncoder", wheelAbsEncoder.get());
+        if(AutoMode == true && input.get() == false)
+        {
+            SmartDashboard.putBoolean("setPosition Shoot", true);   
+            setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
+            currPosition = Constants.Position.SHOOT;
+            AutoMode = false;
+        }
     }
 }
+ 

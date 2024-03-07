@@ -22,13 +22,6 @@ public class Intake extends Command {
     private final BooleanSupplier reverseSup;
     private final BooleanSupplier switchSup;
 
-    public enum Position {
-        SHOOT,
-        INTAKE,
-        AMP
-    }
-
-    public Position currPosition = Position.SHOOT;
 
 
 
@@ -52,44 +45,36 @@ public class Intake extends Command {
     }
 
     public void handleWheels() {
-        if (shootSup.getAsBoolean() && currPosition == Position.SHOOT) {
+        if (shootSup.getAsBoolean() && intakeSubsystem.currPosition == Constants.Position.SHOOT) {
             intakeSubsystem.setSpeed(0.35, false);
             return;
         }
-        if (shootSup.getAsBoolean() && currPosition == Position.AMP) {
+        if (shootSup.getAsBoolean() && intakeSubsystem.currPosition == Constants.Position.AMP) {
             intakeSubsystem.setSpeed(0.525, false);
             return;
         }
-        if (shootSup.getAsBoolean() && currPosition == Position.INTAKE) {
-            if (switchSup.getAsBoolean()) {
-                intakeSubsystem.setSpeed(-0.35, false);
-            }
-            else {
-                intakeSubsystem.setSpeed(0, false);
-            }
+        if (shootSup.getAsBoolean() && intakeSubsystem.currPosition == Constants.Position.INTAKE) {
+            intakeSubsystem.setSpeed(-0.35, false);
             return;
         }
-        if(reverseSup.getAsBoolean()) {
-            intakeSubsystem.setSpeed(-0.35);
-            return;
-        }
-        intakeSubsystem.stop();
+        if (!intakeSubsystem.AutoMode)
+            intakeSubsystem.stop();
     }
 
     public void handlePosition() {
         if (shootPosSup.getAsBoolean()) {
             intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
-            currPosition = Position.SHOOT;
+            intakeSubsystem.currPosition = Constants.Position.SHOOT;
             return;
         }
         if (intakePosSup.getAsBoolean()) {
             intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Intake));
-            currPosition = Position.INTAKE;
+            intakeSubsystem.currPosition = Constants.Position.INTAKE;
             return;
         }
         if (ampPosSup.getAsBoolean()) {
             intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Amp));
-            currPosition = Position.AMP;
+            intakeSubsystem.currPosition = Constants.Position.AMP;
             return;
         }
 

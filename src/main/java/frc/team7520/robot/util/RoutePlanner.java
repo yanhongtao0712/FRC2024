@@ -51,6 +51,7 @@ public class RoutePlanner{
         m_pathChooser.addOption("Turn+90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn+90")));
         m_pathChooser.addOption("Turn-90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn-90")));
         m_pathChooser.addOption("DriveCircle", AutoBuilder.followPath(PathPlannerPath.fromPathFile("DriveCircle")));
+        m_pathChooser.addOption("Path with Command", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Path with Command")));
         SmartDashboard.putNumber("ConfigManualPath", 55);
 
     }
