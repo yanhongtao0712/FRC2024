@@ -26,7 +26,7 @@ public class Climber extends Command {
     private final DoubleSupplier bLeftManual;
     private final BooleanSupplier bShift;
 
-    private static final double maxPosition = 510;
+    private static final double maxPosition = 530;
     private static final double motorSpeed = 0.9;
     double leftMotorSpeed = 0;
     double rightMotorSpeed = 0;

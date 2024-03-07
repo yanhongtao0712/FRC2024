@@ -110,6 +110,8 @@ public class ClimberSubsystem extends SubsystemBase {
     public void setZeroPos() {
         leftClimberEncoder.setPosition(0);
         rightClimberEncoder.setPosition(0);
+        leftClimberPID.setReference(0, CANSparkMax.ControlType.kPosition);
+        rightClimberPID.setReference(0, CANSparkMax.ControlType.kPosition);
     }
 
     
@@ -117,6 +119,8 @@ public class ClimberSubsystem extends SubsystemBase {
     public void stop() {
         leftClimberMotor.set(0);
         rightClimberMotor.set(0);
+        leftClimberPID.setReference(leftClimberEncoder.getPosition(), CANSparkMax.ControlType.kPosition);
+        rightClimberPID.setReference(rightClimberEncoder.getPosition(), CANSparkMax.ControlType.kPosition);
     }
 
     @Override

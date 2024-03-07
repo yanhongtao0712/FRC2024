@@ -113,6 +113,7 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
+        climberSubsystem.setDefaultCommand(climber);
     }
 
     /**
