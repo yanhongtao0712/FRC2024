@@ -1,0 +1,255 @@
+[33mcommit ef6d29d1d779f9583adb12e0e50c8388fbc51d5d[m[33m ([m[1;36mHEAD -> [m[1;32mSwerve2[m[33m, [m[1;31morigin/Swerve2[m[33m)[m
+Author: Harry Guang <hguang@team7520.com>
+Date:   Thu Mar 7 00:48:04 2024 -0500
+
+    path with commands
+
+[33mcommit f32f4a90ab404244de89ee3c8a48ef7af499bc6e[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Wed Mar 6 16:59:31 2024 -0500
+
+    change for Swerve3
+
+[33mcommit 52295beb82dd853cad89b6bb04130c9f6676c2f4[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Wed Mar 6 16:04:39 2024 -0500
+
+    change the reset position to the speaker position
+
+[33mcommit a5075f1f020ddf872166a656b99226a51897d89e[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Wed Mar 6 13:13:01 2024 -0500
+
+    Add setGyro for photonvision
+
+[33mcommit da5662bc1f59288af619ed48b6637a0bc1f91d4e[m
+Merge: 156d72c 2bd800d
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Wed Mar 6 12:58:16 2024 -0500
+
+    Merge branch 'chooser' into Swerve2
+
+[33mcommit 2bd800dc4b012ffe833125675df61b6dd760907f[m[33m ([m[1;31morigin/chooser[m[33m)[m
+Author: Harry Guang <hguang@team7520.com>
+Date:   Tue Mar 5 23:26:57 2024 -0500
+
+    change reset
+
+[33mcommit b06717418bcf3f5f353372dd1fd766e23cc38bca[m
+Author: Harry Guang <hguang@team7520.com>
+Date:   Tue Mar 5 22:52:14 2024 -0500
+
+    make chooser working
+
+[33mcommit 156d72caab4e750d3d10b0c8195eebeb5b1fac20[m
+Author: Harry Guang <hguang@team7520.com>
+Date:   Tue Mar 5 22:20:49 2024 -0500
+
+    change some values for the camera settings
+
+[33mcommit 4abddb43cdc914e8fbb68ebb7b457933c58dde2e[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Tue Mar 5 21:37:01 2024 -0500
+
+    Update the auto Route
+    Still need to figure out how to execute the command in path planner
+
+[33mcommit ae075afe2938aea2795c1800a6dc54b29786c9fc[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Tue Mar 5 19:22:24 2024 -0500
+
+    Update Autobuild
+
+[33mcommit 57d9daa6995ff1906c2e6c8cc9f7a23a00467634[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Tue Mar 5 13:37:46 2024 -0500
+
+    Add Chooser to simplify the test
+    Adjust the gear ratio to reflect the actual test result (0.95/1)
+
+[33mcommit 2ec8557fc63a32e466b90a078fa55edd8a401bb1[m
+Author: Harry Guang <hguang@team7520.com>
+Date:   Tue Mar 5 00:28:07 2024 -0500
+
+    pathplanner
+
+[33mcommit 1d17bc8ab5febdd263a216d7d4d0203905c92425[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Mon Mar 4 00:36:57 2024 -0500
+
+    Fix Direct & orientation is wrong.
+    controller return value is negative, need correct to match odometer and
+    gyro
+    Module json definition change to inverted to match actual base forward
+    direction
+    
+    off ground test pass
+
+[33mcommit 4831378bea8a0934dfa60443491f0d9bcfb85256[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Sun Mar 3 23:06:29 2024 -0500
+
+    Change the photoVision review to 2024.1.4
+
+[33mcommit 9da31cea6429cef6bdf0ec49793b8117dad5e0ad[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Sun Mar 3 22:57:31 2024 -0500
+
+    Able to build with PhotoVision & PathPlanner
+
+[33mcommit 932aecf4c74c7a9447ac06c3be8f9e63130082cb[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Fri Mar 1 22:18:16 2024 -0500
+
+    Add Pathplanner Helper, can not build
+
+[33mcommit d44beb060f32d64a8085e81265e0f8fdea8830f0[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Sun Mar 3 14:33:50 2024 -0500
+
+    Add condition to stop the spin when joystick is not activate.
+    
+    Issue: The dead band is not same value in the control, need to use same joystick bandvalue
+
+[33mcommit 102b3f450139676e03e36655ba966070f920a3fc[m
+Author: yanhongtao0712 <113565830+yanhongtao0712@users.noreply.github.com>
+Date:   Thu Feb 29 23:07:39 2024 -0500
+
+    Create a branch so new code could run on swerve2 as well.
+    Just change the SWERVE_BASE_NUMBER = 2 for swerve 2
+    or SWERVE_BASE_NUMBER = 3 for new base.
+
+[33mcommit f924d8684fd9638c3790aadaefcb365167f1976f[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Fri Mar 1 23:13:03 2024 -0500
+
+    Working
+
+[33mcommit 79850b8c1f4732d462a447ce8e453029d227647c[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Sat Feb 24 13:09:56 2024 -0500
+
+    Working
+
+[33mcommit db0d5d29851c5bd657c6c987c963956a61a7471a[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Fri Feb 23 20:13:10 2024 -0500
+
+    Shooter
+
+[33mcommit abc5b650ddac6c1a568b79000acf22f6c294dbf9[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Fri Feb 23 20:12:30 2024 -0500
+
+    More intake stuff
+
+[33mcommit 08f6d3f5bed42c77a1ce92a30a6069d79719f018[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Fri Feb 23 19:36:23 2024 -0500
+
+    Intake and LEDS
+
+[33mcommit 2cdf25545dd4b77bf0e24cee778595bf186aad3b[m
+Merge: 552b26b 416c81b
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Wed Feb 21 20:44:59 2024 -0500
+
+    Merge pull request #4 from Team7520/Intake-2024
+    
+    Intake 2024
+
+[33mcommit 416c81befff5778fb4977cc0f5ca5ef828e2dcf2[m
+Merge: c1a4f89 552b26b
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Wed Feb 21 20:43:38 2024 -0500
+
+    Merge branch 'master' into Intake-2024
+
+[33mcommit c1a4f89710a823b4051d924088d92cdbe3230cb0[m
+Author: IAmRice33 <kyle.yang7728@gmail.com>
+Date:   Tue Feb 20 17:26:33 2024 -0500
+
+    Added Angle setting for pivot + Default intake command
+
+[33mcommit 552b26b06a913d1097b0dc73776bfca4c134b4ab[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Mon Feb 19 20:40:59 2024 -0500
+
+    Zero encoder
+
+[33mcommit 98bcdf3e8dc678f6f3741a6a866b8201f0d2a8fa[m
+Merge: f81c65e ee3d442
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Mon Feb 19 13:12:39 2024 -0500
+
+    Merge pull request #1 from Team7520/master
+    
+    Sync Fork
+
+[33mcommit da27ad377a492d549c0b80df11070030164d615c[m
+Author: IAmRice33 <kyle.yang7728@gmail.com>
+Date:   Sun Feb 18 14:09:22 2024 -0500
+
+    Added default command
+    To-Do: Add Smartmotion for arm positions
+
+[33mcommit 763b7b14ee10063da7aea2104309b5250dbe2eef[m
+Author: IAmRice33 <kyle.yang7728@gmail.com>
+Date:   Sat Feb 17 17:47:53 2024 -0500
+
+    Fixed issue with code (Not deploying)
+    
+    There is no default command for IntakeRollers
+
+[33mcommit 7af6b4f242602b03be9108d371d477ad8b9d7add[m
+Author: IAmRice33 <kyle.yang7728@gmail.com>
+Date:   Sat Feb 17 17:29:20 2024 -0500
+
+    Intake 2024 - First Iteration
+    
+    Needs PID and better controls
+
+[33mcommit ee3d44267e3e3f598b364268b7e6e45818ead39a[m
+Merge: f81c65e 4b52d7b
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Thu Feb 15 20:21:40 2024 -0500
+
+    Merge pull request #1 from Team7520/setHeading-function
+    
+    Added a set heading commad
+
+[33mcommit 4b52d7be1b6748a38fbfb268315b7a5aea676a01[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Mon Feb 12 22:13:00 2024 -0500
+
+    Set Heading and fixed lock wheels in x
+
+[33mcommit f81c65e7fb45a7c82bf9a504d74b8fff061ea6c2[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Mon Feb 12 21:41:23 2024 -0500
+
+    Needs PID
+
+[33mcommit 38b7034a9869703c93786e237978fe696e7a7324[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Tue Jan 30 21:33:55 2024 -0500
+
+    Some improvents still needs pathplanner
+
+[33mcommit a4ad818e4dadac04f62753655fe33cb2378974ec[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Thu Jan 18 16:55:16 2024 -0500
+
+    Swerve Needs Path Planner
+
+[33mcommit d7f99d97838b522aa59115cceed539c63de46275[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Thu Jan 18 16:32:10 2024 -0500
+
+    Update vendorlibs
+
+[33mcommit d731dabfecc54dd9c092c82d19fb226aa530390b[m
+Author: RunTheBot <58890327+RunTheBot@users.noreply.github.com>
+Date:   Thu Jan 18 16:29:03 2024 -0500
+
+    init
