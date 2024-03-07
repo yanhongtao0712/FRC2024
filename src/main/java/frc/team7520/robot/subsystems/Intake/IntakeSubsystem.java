@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,10 +28,11 @@ public class IntakeSubsystem extends SubsystemBase {
     private final SparkPIDController pivotPID = pivot.getPIDController();
     private final SparkPIDController wheelsPID = wheels.getPIDController();
 
+    private final DigitalInput input = new DigitalInput(0);
+
     private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
     public Rotation2d DesiredPosition = Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot);
-
 
     // rev through bore encoders
     public DutyCycleEncoder wheelAbsEncoder = new DutyCycleEncoder(2);
@@ -148,6 +150,9 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
+    public boolean getSwitchVal() {
+        return input.get();
+    }
 
     public double getDiffedEncoder(){
         return pivotAbsEncoder.get() - wheelAbsEncoder.get();
