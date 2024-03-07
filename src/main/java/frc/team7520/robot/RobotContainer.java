@@ -10,6 +10,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team7520.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
@@ -63,6 +65,8 @@ public class RobotContainer
     SendableChooser<Command> autoChooser = new SendableChooser<>();
     public RoutePlanner myRoute = new RoutePlanner(pathChooser, autoChooser);
 
+    int counter = 1;
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
@@ -82,7 +86,78 @@ public class RobotContainer
                 // Configure the trigger bindings
 
 
+        NamedCommands.registerCommand(
+                "MyTestCommand", 
+                new InstantCommand(()->{
+                        SmartDashboard.putNumber("MyTestCommand Counter:", counter++);   
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Intake
+                                )
+                        );
+                        intakeSubsystem.currPosition = Constants.Position.INTAKE;
+                        intakeSubsystem.setAutoSpeed(-0.35, false);
+                        /*
+                        
+                         */
+                          
+                }));
 
+
+
+
+
+
+
+        NamedCommands.registerCommand(
+                "SetPosition_Intake", 
+                new InstantCommand(()->{
+                        SmartDashboard.putBoolean("SetPositio start", true);
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Intake
+                                )
+                        );     
+                        SmartDashboard.putBoolean("SetPositio end", true);               
+                }));
+
+        NamedCommands.registerCommand(
+                "SetPosition_Shoot", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Shoot
+                                )
+                        );                    
+                }));
+
+        NamedCommands.registerCommand(
+                "SetPosition_Amp", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Amp
+                                )
+                        );                    
+                }));
+
+        NamedCommands.registerCommand(
+                "SetSpeed_Intake", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setAutoSpeed(-0.35, false);
+                }));
+
+        NamedCommands.registerCommand(
+                "SetSpeed_Shoot", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setAutoSpeed(0.35, false);
+                }));
+
+        NamedCommands.registerCommand(
+                "SetSpeed_Amp", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setAutoSpeed(0.525, false);
+                }));
 
         // Left joystick is the angle of the robot
         AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
