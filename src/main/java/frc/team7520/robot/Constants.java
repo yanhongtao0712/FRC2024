@@ -69,8 +69,8 @@ public final class Constants {
             public static final double GearAnglePerMotorRev = 360/GearRatio;
             public static final double ConversionFactor = 1/GearRatio;
 
-            public static final double Intake = 55.2 * GearAnglePerMotorRev;
-            public static final double Amp = 21.809415817260742 * GearAnglePerMotorRev;
+            public static final double Intake = 56 * GearAnglePerMotorRev;
+            public static final double Amp = 23.809415817260742 * GearAnglePerMotorRev;
             public static final double Shoot = 0;
 
             public static final double kP = 0.00022;

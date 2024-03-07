@@ -7,6 +7,7 @@ package frc.team7520.robot;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,6 +26,7 @@ import frc.team7520.robot.commands.Shooter;
 import frc.team7520.robot.commands.TeleopDrive;
 import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
 import frc.team7520.robot.subsystems.climber.ClimberSubsystem;
+=======
 import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
@@ -60,6 +62,10 @@ public class RobotContainer
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
+        LED.getInstance().test();
+
+        CameraServer.startAutomaticCapture();
+
         // Configure the trigger bindings
         configureBindings();
 
@@ -73,7 +79,7 @@ public class RobotContainer
                 () -> MathUtil.applyDeadband(driverController.getLeftX(),
                         OperatorConstants.LEFT_X_DEADBAND),
                 () -> driverController.getRightX(),
-                () -> -driverController.getRightY(),
+                () -> driverController.getRightY(),
                 driverController::getRightBumper,
                 driverController::getLeftBumper
         );
@@ -87,7 +93,8 @@ public class RobotContainer
                 operatorController::getRightBumper,
                 operatorController::getYButton,
                 operatorController::getAButton,
-                operatorController::getBButton
+                operatorController::getBButton,
+                operatorController::getXButton
         );
 
         Climber climber = new Climber(climberSubsystem,
