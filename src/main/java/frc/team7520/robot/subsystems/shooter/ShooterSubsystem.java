@@ -24,7 +24,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private RelativeEncoder leftShooterEncoder;
     private RelativeEncoder rightShooterEncoder;
 
-    private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(0.5);
+    private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(5);
 
     /**
      * The Singleton instance of this shooterSubsystem. Code should use
