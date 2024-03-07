@@ -66,11 +66,11 @@ public final class Constants {
             public static final int CAN_ID = 23;
 
             public static final double GearRatio = 100;
-            public static final double GearAnglePerMotorRev = 360/GearRatio;
-            public static final double ConversionFactor = 1/GearRatio;
+            public static final double degreeConversionFactor = 360/GearRatio;
+            public static final double rotationConversionFactor = 1/GearRatio;
 
-            public static final double Intake = 56 * GearAnglePerMotorRev;
-            public static final double Amp = 23.809415817260742 * GearAnglePerMotorRev;
+            public static final double Intake = 211.374d;
+            public static final double Amp = 23.809415817260742 * degreeConversionFactor;
             public static final double Shoot = 0;
 
             public static final double kP = 0.00022;
@@ -81,10 +81,10 @@ public final class Constants {
             public static final double OutputMax = 1;
             public static final double OutputMin = -1;
 
-            public static final double SmartMaxVel = 30000000;
+            public static final double SmartMaxVel = 10000;
             public static final double SmartMinVel = 0;
-            public static final double SmartAccel = 40000;
-            public static final double SmartErr = 0.01;
+            public static final double SmartAccel = 1000;
+            public static final double SmartErr = 2;
             public static final int SlotID = 0;
         }
         public static class WheelConstants {

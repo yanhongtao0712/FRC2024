@@ -4,7 +4,6 @@
 
 package frc.team7520.robot.subsystems.Intake;
 
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -13,9 +12,11 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants.IntakeConstants;
+import frc.team7520.robot.util.DiffEncoder;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -30,6 +31,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Rotation2d DesiredPosition = Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot);
 
+
+    // rev through bore encoders
+    public DutyCycleEncoder wheelAbsEncoder = new DutyCycleEncoder(2);
+    public DutyCycleEncoder pivotAbsEncoder = new DutyCycleEncoder(1);
+
+//    public DiffEncoder diffedEncoder = new DiffEncoder(pivotAbsEncoder, pivotAbsEncoder);
+
     private final static IntakeSubsystem INSTANCE = new IntakeSubsystem();
 
     @SuppressWarnings("WeakerAccess")
@@ -41,7 +49,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private IntakeSubsystem() {
         this.pivotEncoder = pivot.getEncoder();
         pivotEncoder.setPosition(0);
-        pivotEncoder.setPositionConversionFactor(IntakeConstants.PivotConstants.ConversionFactor);
+        pivotEncoder.setPositionConversionFactor(IntakeConstants.PivotConstants.degreeConversionFactor);
 
         pivotPID.setP(IntakeConstants.PivotConstants.kP);
         pivotPID.setI(IntakeConstants.PivotConstants.kI);
@@ -56,6 +64,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
         pivot.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
+//        pivotAbsEncoder.setDistancePerRotation(360);
+        pivotAbsEncoder.setPositionOffset(0.159);
+
         // Wheels
         wheels.setIdleMode(CANSparkMax.IdleMode.kBrake);
 //        wheels.setInverted(true);
@@ -64,11 +75,15 @@ public class IntakeSubsystem extends SubsystemBase {
         wheelsPID.setI(IntakeConstants.WheelConstants.kI);
         wheelsPID.setD(IntakeConstants.WheelConstants.kD);
         wheelsPID.setFF(IntakeConstants.WheelConstants.kFF);
+
+//        wheelAbsEncoder.setDistancePerRotation(360);
+
+
     }
 
     public void setPosition(Rotation2d position){
         DesiredPosition = position;
-        pivotPID.setReference(DesiredPosition.getRotations(), ControlType.kSmartMotion);
+        pivotPID.setReference(DesiredPosition.getDegrees(), ControlType.kSmartMotion);
     }
 
 //    public Command Shoot() {
@@ -133,10 +148,18 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
 
+
+    public double getDiffedEncoder(){
+        return pivotAbsEncoder.get() - wheelAbsEncoder.get();
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("pivotEncoder", pivotEncoder.getPosition());
         SmartDashboard.putNumber("DesiredDeg", DesiredPosition.getDegrees());
         SmartDashboard.putNumber("DesiredRot", DesiredPosition.getRotations());
+        SmartDashboard.putNumber("diffedEncoder", getDiffedEncoder());
+        SmartDashboard.putNumber("PivotAbsEncoder", pivotAbsEncoder.get());
+        SmartDashboard.putNumber("wheelsAbsEncoder", wheelAbsEncoder.get());
     }
 }
