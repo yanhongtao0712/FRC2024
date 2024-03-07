@@ -100,7 +100,7 @@ public class RobotContainer
         Climber climber = new Climber(climberSubsystem,
                 operatorController::getLeftStickButton,
                 operatorController::getRightStickButton,
-                operatorController::getXButton,
+                operatorController::getStartButton,
                 operatorController::getRightY,
                 operatorController::getLeftY,
                 operatorController::getBackButton
