@@ -134,8 +134,8 @@ public class AbsoluteDrive extends Command {
         SmartDashboard.putString("Translation", translation.toString());
 
         // Make the robot move
-       double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 && (Math.abs(headingVertical.getAsDouble()) < 0.1))? 0:desiredSpeeds.omegaRadiansPerSecond;
-        //double omega = desiredSpeeds.omegaRadiansPerSecond;
+       //double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 && (Math.abs(headingVertical.getAsDouble()) < 0.1))? 0:desiredSpeeds.omegaRadiansPerSecond;
+        double omega = desiredSpeeds.omegaRadiansPerSecond;
         swerve.drive(translation, omega, false);
 
     }
