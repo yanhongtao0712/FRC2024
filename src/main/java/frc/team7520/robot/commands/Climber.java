@@ -5,7 +5,10 @@
 package frc.team7520.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7520.robot.Constants;
+import frc.team7520.robot.Constants.ClimberConstants;
+import frc.team7520.robot.subsystems.climber.ClimberSubsystem;
 import frc.team7520.robot.subsystems.climber.ClimberSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -26,7 +29,6 @@ public class Climber extends Command {
     private final DoubleSupplier bLeftManual;
     private final BooleanSupplier bShift;
 
-    private static final double maxPosition = 530;
     private static final double motorSpeed = 0.9;
     double leftMotorSpeed = 0;
     double rightMotorSpeed = 0;
@@ -57,6 +59,8 @@ public class Climber extends Command {
         this.bRightManual = rightManual;
         this.bLeftManual = leftManual;
         this.bShift = shift;
+        subsystem.setLeftPosition(ClimberConstants.maxPosition);
+        subsystem.setRightPosition(ClimberConstants.maxPosition);
      
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(climberSubsystem);
@@ -68,13 +72,25 @@ public class Climber extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+    }
+
+    public String convertState(State state) {
+        if (state == State.NOTHING) {
+            return "NOTHING";
+        } else if (state == State.EXTEND) {
+            return "EXTEND";
+        } else if (state == State.RETRACT) {
+            return "RETRACT";
+        }
+        return "";
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-        System.out.println("State: " + this.state);
+        SmartDashboard.putString("State", convertState(this.state));
         double leftPosition = subsystem.getLeftPosition();
         double rightPosition = subsystem.getRightPosition();
 
@@ -96,8 +112,8 @@ public class Climber extends Command {
             subsystem.setRightArmReference(0);
             subsystem.setLeftArmReference(0);
         } else if (bRetract.getAsBoolean()) {
-            subsystem.setRightArmReference(maxPosition);
-            subsystem.setLeftArmReference(maxPosition);
+            subsystem.setRightArmReference(ClimberConstants.maxPosition);
+            subsystem.setLeftArmReference(ClimberConstants.maxPosition);
             this.state = State.RETRACT;
         } else if (bStop.getAsBoolean()) {
             if (bShift.getAsBoolean()) {

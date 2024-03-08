@@ -114,8 +114,9 @@ public final class Constants {
     public static class ClimberConstants {
         public static final int ClimberLeftID = 30;
         public static final int ClimberRightID = 31;
+        public static final int maxPosition = 520;
 
-        public static final double kP = 0.002;
+        public static final double kP = 0.004;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double kFF = 0.0006;

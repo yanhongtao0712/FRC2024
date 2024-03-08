@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants;
 import frc.team7520.robot.Constants.IntakeConstants;
+import frc.team7520.robot.Constants.ClimberConstants;
 
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -108,10 +109,10 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void setZeroPos() {
-        leftClimberEncoder.setPosition(0);
-        rightClimberEncoder.setPosition(0);
-        leftClimberPID.setReference(0, CANSparkMax.ControlType.kPosition);
-        rightClimberPID.setReference(0, CANSparkMax.ControlType.kPosition);
+        leftClimberEncoder.setPosition(ClimberConstants.maxPosition);
+        rightClimberEncoder.setPosition(ClimberConstants.maxPosition);
+        leftClimberPID.setReference(ClimberConstants.maxPosition, CANSparkMax.ControlType.kPosition);
+        rightClimberPID.setReference(ClimberConstants.maxPosition, CANSparkMax.ControlType.kPosition);
     }
 
     
@@ -125,7 +126,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println("Left Arm Position:" + leftClimberEncoder.getPosition());
-        System.out.println("Right Arm Position:" + rightClimberEncoder.getPosition());
+        SmartDashboard.putNumber("ClimberL", leftClimberEncoder.getPosition());
+        SmartDashboard.putNumber("ClimberR", rightClimberEncoder.getPosition());
     }
 }
