@@ -5,9 +5,13 @@
 
 package frc.team7520.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
+import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the methods corresponding to
@@ -20,8 +24,12 @@ public class Robot extends TimedRobot
     private Command autonomousCommand;
     
     private RobotContainer robotContainer;
+
+    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
+    private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
     
-    
+    private boolean toShoot = false;
+
     /**
      * This method is run when the robot is first started up and should be used for any
      * initialization code.
@@ -78,7 +86,35 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+
+        if(intakeSubsystem.AutoMode == true && intakeSubsystem.input.get() == false)
+        {
+            SmartDashboard.putBoolean("setPosition Shoot", true);   
+            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
+            intakeSubsystem.currPosition = Constants.Position.SHOOT;
+            intakeSubsystem.setSpeed(0);
+            intakeSubsystem.AutoMode = false;
+        }
+        
+        /*
+        if(intakeSubsystem.AutoMode == true && toShoot == true)
+        {
+            shooterSubsystem.setSpeed(1, false);
+        }
+        if(intakeSubsystem.AutoMode == true 
+            && toShoot == true
+            //&& intakeSubsystem.input.get() == true
+            )
+        {
+            shooterSubsystem.setSpeed(0, false);
+            toShoot = false;
+            intakeSubsystem.AutoMode = false;
+        }
+         */
+
+
+    }
     
     
     @Override
@@ -97,7 +133,10 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+
+
+    }
     
     
     @Override

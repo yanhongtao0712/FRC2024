@@ -52,8 +52,8 @@ public class RobotContainer
 {
     // Subsystems
     private final SwerveSubsystem drivebase;
-    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
 
+    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
@@ -106,6 +106,127 @@ public class RobotContainer
                 // Configure the trigger bindings
 
 
+        NamedCommands.registerCommand(
+                "MyTestCommand", 
+                new InstantCommand(()->{
+                        SmartDashboard.putNumber("MyTestCommand Counter:", counter++);   
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Intake
+                                )
+                        );
+                        intakeSubsystem.currPosition = Constants.Position.INTAKE;
+                        intakeSubsystem.setAutoSpeed(-0.35, false);                          
+                }));
+
+
+        NamedCommands.registerCommand(
+                "ShootOnSite", 
+                new InstantCommand(()->{
+                        shooterSubsystem.setSpeed(1, false);
+                        try {
+                                Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                        }
+                        intakeSubsystem.setAutoSpeed(0.35, false);
+                        try {
+                                Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                        }
+                        intakeSubsystem.setSpeed(0, false);
+                        shooterSubsystem.setSpeed(0, false);
+                        intakeSubsystem.AutoMode = false;
+                }));
+
+
+        NamedCommands.registerCommand(
+                "IntakeDown", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Intake));
+                        intakeSubsystem.setAutoSpeed(-0.35, false);
+                }));
+
+
+        NamedCommands.registerCommand(
+                "IntakeSpeedStop", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setSpeed(0, false);
+                }));
+
+
+
+        NamedCommands.registerCommand(
+                "IntakeUp", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
+                }));
+
+        NamedCommands.registerCommand(
+                "PhotonResetPose", 
+                new InstantCommand(()->{
+                        var photonPose = drivebase.GetPhotonvisionPose2d();
+                        SmartDashboard.putBoolean("Photon found", (photonPose != null));
+                        if (photonPose != null)
+                        {
+                            drivebase.resetOdometry(photonPose); 
+                        }
+                }));
+
+
+
+
+
+
+
+        NamedCommands.registerCommand(
+                "SetPosition_Intake", 
+                new InstantCommand(()->{
+                        SmartDashboard.putBoolean("SetPositio start", true);
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Intake
+                                )
+                        );     
+                        SmartDashboard.putBoolean("SetPositio end", true);               
+                }));
+
+        NamedCommands.registerCommand(
+                "SetPosition_Shoot", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Shoot
+                                )
+                        );                    
+                }));
+
+        NamedCommands.registerCommand(
+                "SetPosition_Amp", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(
+                                Rotation2d.fromDegrees(
+                                        Constants.IntakeConstants.PivotConstants.Amp
+                                )
+                        );                    
+                }));
+
+        NamedCommands.registerCommand(
+                "SetSpeed_Intake", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setAutoSpeed(-0.35, false);
+                }));
+
+        NamedCommands.registerCommand(
+                "SetSpeed_Shoot", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setAutoSpeed(0.35, false);
+                }));
+
+        NamedCommands.registerCommand(
+                "SetSpeed_Amp", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setAutoSpeed(0.525, false);
+                }));
 
         // Left joystick is the angle of the robot
         AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,

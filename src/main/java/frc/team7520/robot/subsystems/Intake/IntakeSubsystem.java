@@ -30,7 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private final SparkPIDController pivotPID = pivot.getPIDController();
     private final SparkPIDController wheelsPID = wheels.getPIDController();
 
-    private final DigitalInput input = new DigitalInput(0);
+    public final DigitalInput input = new DigitalInput(0);
 
     private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
@@ -196,6 +196,7 @@ public class IntakeSubsystem extends SubsystemBase {
             SmartDashboard.putBoolean("setPosition Shoot", true);   
             setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
             currPosition = Constants.Position.SHOOT;
+            setSpeed(0);
             AutoMode = false;
         }
     }
