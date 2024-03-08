@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+import frc.team7520.robot.Robot;
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -41,6 +42,8 @@ public class RoutePlanner{
         new PathPlannerAuto("Profile-32");
         new PathPlannerAuto("Profile-33");
         new PathPlannerAuto("BlueShotOnSite");
+        new PathPlannerAuto("BlueShotOnSiteLeft");
+        new PathPlannerAuto("BlueShotOnSiteRight");
         SmartDashboard.putNumber("ConfigManualPath", 55);
     }
     public void ConfigureManualPathProfile()

@@ -134,9 +134,15 @@ public class AbsoluteDrive extends Command {
                 swerve.getSwerveDriveConfiguration());
         SmartDashboard.putNumber("LimitedTranslation", translation.getX());
         SmartDashboard.putString("Translation", translation.toString());
+        // Stop the robot from spinning after the auto movement
 
+   double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 
+    && (Math.abs(headingVertical.getAsDouble()) < 0.1)
+    && CCWSpin.getAsBoolean()
+    && CWSpin.getAsBoolean())? 0:desiredSpeeds.omegaRadiansPerSecond;
+   //double omega = desiredSpeeds.omegaRadiansPerSecond;
         // Make the robot move
-       swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true);
+       swerve.drive(translation, omega, true);
 
     }
 

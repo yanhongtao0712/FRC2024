@@ -165,9 +165,9 @@ public final class Constants {
     }
 
     public static final class StartPosition {
-        public static Pose2d startPosition_1 = new Pose2d(1.24, 5.56, new Rotation2d(0));
-        public static Pose2d startPosition_2 = new Pose2d(0.8, 4.6, new Rotation2d(0));  // Angle to be determined
-        public static Pose2d startPosition_3 = new Pose2d(0.8, 6.5, new Rotation2d(0));  // Angle to be determined
+        public static Pose2d startPosition_1 = new Pose2d(1.24, 5.56, Rotation2d.fromDegrees(0));
+        public static Pose2d startPosition_2 = new Pose2d(0.8, 4.6, Rotation2d.fromDegrees(0));  // Angle to be determined
+        public static Pose2d startPosition_3 = new Pose2d(0.8, 6.5, Rotation2d.fromDegrees(0));  // Angle to be determined
 
     }
 }
