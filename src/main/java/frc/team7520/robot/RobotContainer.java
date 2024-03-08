@@ -48,9 +48,11 @@ public class RobotContainer
 {
     // Subsystems
     private final SwerveSubsystem drivebase;
-    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
 
+    private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
+
+
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
@@ -96,11 +98,60 @@ public class RobotContainer
                                 )
                         );
                         intakeSubsystem.currPosition = Constants.Position.INTAKE;
+                        intakeSubsystem.setAutoSpeed(-0.35, false);                          
+                }));
+
+
+        NamedCommands.registerCommand(
+                "ShootOnSite", 
+                new InstantCommand(()->{
+                        shooterSubsystem.setSpeed(1, false);
+                        try {
+                                Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                        }
+                        intakeSubsystem.setAutoSpeed(0.35, false);
+                        try {
+                                Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                        }
+                        intakeSubsystem.setSpeed(0, false);
+                        shooterSubsystem.setSpeed(0, false);
+                        intakeSubsystem.AutoMode = false;
+                }));
+
+
+        NamedCommands.registerCommand(
+                "IntakeDown", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Intake));
                         intakeSubsystem.setAutoSpeed(-0.35, false);
-                        /*
-                        
-                         */
-                          
+                }));
+
+
+        NamedCommands.registerCommand(
+                "IntakeSpeedStop", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setSpeed(0, false);
+                }));
+
+
+
+        NamedCommands.registerCommand(
+                "IntakeUp", 
+                new InstantCommand(()->{
+                        intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
+                }));
+
+        NamedCommands.registerCommand(
+                "PhotonResetPose", 
+                new InstantCommand(()->{
+                        var photonPose = drivebase.GetPhotonvisionPose2d();
+                        SmartDashboard.putBoolean("Photon found", (photonPose != null));
+                        if (photonPose != null)
+                        {
+                            drivebase.resetOdometry(photonPose); 
+                        }
                 }));
 
 

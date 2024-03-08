@@ -34,7 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private final static IntakeSubsystem INSTANCE = new IntakeSubsystem();
 
-    DigitalInput input = new DigitalInput(0);
+    public DigitalInput input = new DigitalInput(0);
     public static boolean AutoMode = false;    
 
     public Constants.Position currPosition = Constants.Position.SHOOT;
@@ -169,6 +169,7 @@ public class IntakeSubsystem extends SubsystemBase {
             SmartDashboard.putBoolean("setPosition Shoot", true);   
             setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
             currPosition = Constants.Position.SHOOT;
+            setSpeed(0);
             AutoMode = false;
         }
     }

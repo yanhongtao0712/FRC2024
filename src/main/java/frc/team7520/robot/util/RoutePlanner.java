@@ -40,6 +40,7 @@ public class RoutePlanner{
         new PathPlannerAuto("Profile-31");
         new PathPlannerAuto("Profile-32");
         new PathPlannerAuto("Profile-33");
+        new PathPlannerAuto("BlueShotOnSite");
         SmartDashboard.putNumber("ConfigManualPath", 55);
     }
     public void ConfigureManualPathProfile()
