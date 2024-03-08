@@ -42,6 +42,7 @@ public class RoutePlanner{
         new PathPlannerAuto("Profile-32");
         new PathPlannerAuto("Profile-33");
         new PathPlannerAuto("BlueShotOnSite");
+        new PathPlannerAuto("RedShotOnSite");
         new PathPlannerAuto("BlueShotOnSiteLeft");
         new PathPlannerAuto("BlueShotOnSiteRight");
         SmartDashboard.putNumber("ConfigManualPath", 55);

@@ -51,7 +51,7 @@ import java.io.File;
 public class RobotContainer
 {
     // Subsystems
-    private final SwerveSubsystem drivebase;
+    public final SwerveSubsystem drivebase;
 
     private final ShooterSubsystem shooterSubsystem = ShooterSubsystem.getInstance();
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
@@ -316,7 +316,9 @@ public class RobotContainer
     {
         // Zero gyro
         new JoystickButton(driverController, XboxController.Button.kA.value)
-                .onTrue(new InstantCommand(drivebase::myReset));
+                .onTrue(new InstantCommand(()->{
+                        drivebase.myReset();
+                }));
         // X/Lock wheels
                 new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));

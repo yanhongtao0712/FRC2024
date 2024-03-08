@@ -277,8 +277,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void myReset()
     {
+        boolean IsBlueTeam = true;
         zeroGyro();
-        resetOdometry(Constants.StartPosition.startPosition_1);
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if(alliance.get() == DriverStation.Alliance.Red)
+                IsBlueTeam = false;
+        }
+        if (IsBlueTeam)
+            resetOdometry(Constants.StartPosition.blueStartPosition_1);
+        else
+            resetOdometry(Constants.StartPosition.redStartPosition_1);
     }
 
     /**
