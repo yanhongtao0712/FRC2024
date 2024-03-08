@@ -135,7 +135,7 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double kFF = 0.0006;
-
+    }
     public static final class CameraConstants {
         public static final int CAMERA_PITCH_ANGLE = 1;
         public static final double SPEAKER_SUBWOOFER_WIDTH = 0.92;

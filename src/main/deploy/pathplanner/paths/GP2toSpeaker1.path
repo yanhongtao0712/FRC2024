@@ -3,8 +3,6 @@
   "waypoints": [
     {
       "anchor": {
-<<<<<<< HEAD
-<<<<<<< HEAD
         "x": 2.5,
         "y": 5.56
       },
@@ -12,54 +10,18 @@
       "nextControl": {
         "x": 2.181446982759521,
         "y": 5.56
-=======
-        "x": 2.2852024651417726,
-        "y": 5.519297354384182
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.9678132338720822,
-        "y": 5.546502145635871
->>>>>>> 57d9daa (Add Chooser to simplify the test)
-=======
-        "x": 2.5,
-        "y": 5.56
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.181446982759521,
-        "y": 5.56
->>>>>>> 4abddb4 (Update the auto Route)
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-<<<<<<< HEAD
-<<<<<<< HEAD
         "x": 1.24,
         "y": 5.56
       },
       "prevControl": {
         "x": 1.7206179787798175,
         "y": 5.587204791251688
-=======
-        "x": 1.4509222000900142,
-        "y": 5.519297354384182
-      },
-      "prevControl": {
-        "x": 1.9315401788698316,
-        "y": 5.546502145635871
->>>>>>> 57d9daa (Add Chooser to simplify the test)
-=======
-        "x": 1.24,
-        "y": 5.56
-      },
-      "prevControl": {
-        "x": 1.7206179787798175,
-        "y": 5.587204791251688
->>>>>>> 4abddb4 (Update the auto Route)
       },
       "nextControl": null,
       "isLocked": false,
@@ -72,13 +34,6 @@
   "globalConstraints": {
     "maxVelocity": 1.0,
     "maxAcceleration": 1.0,
-<<<<<<< HEAD
-    "maxVelocity": 1.0,
-    "maxAcceleration": 1.0,
-=======
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
->>>>>>> 57d9daa (Add Chooser to simplify the test)
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -93,9 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-<<<<<<< HEAD
   "useDefaultConstraints": false
-=======
-  "useDefaultConstraints": true
->>>>>>> 57d9daa (Add Chooser to simplify the test)
 }

@@ -56,9 +56,6 @@ public class RobotContainer
 
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
-    private final IntakeRollers IntakeRollersSubsystem = IntakeRollers.getInstance();
-    private final IntakePivot IntakePivotSubsystem = IntakePivot.getInstance();
-
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
     private final LED LEDSubsystem = LED.getInstance();
 
@@ -229,11 +226,7 @@ public class RobotContainer
         // Run the command from path Chooser list
         new JoystickButton(driverController, XboxController.Button.kY.value)
                 .onTrue(new InstantCommand(()->{
-<<<<<<< HEAD
                         //drivebase.resetOdometry(new Pose2d());
-=======
-                        //drivebase.resetOdometry(new Pose2d());
->>>>>>> b067174 (make chooser working)
                         CommandScheduler.getInstance().schedule(
                                 myRoute.getPathPlanerRoute()
                         );

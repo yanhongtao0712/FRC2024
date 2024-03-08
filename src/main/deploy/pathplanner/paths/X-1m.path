@@ -3,8 +3,6 @@
   "waypoints": [
     {
       "anchor": {
-<<<<<<< HEAD
-<<<<<<< HEAD
         "x": 2.24,
         "y": 5.56
       },
@@ -12,54 +10,18 @@
       "nextControl": {
         "x": 1.7850788640891768,
         "y": 5.56
-=======
-        "x": 1.0,
-        "y": 1.0
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 0.5450788640891766,
-        "y": 1.0
->>>>>>> 57d9daa (Add Chooser to simplify the test)
-=======
-        "x": 0.0,
-        "y": 0.0
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": -0.4549211359108234,
-        "y": 0.0
->>>>>>> b067174 (make chooser working)
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-<<<<<<< HEAD
-<<<<<<< HEAD
         "x": 1.24,
         "y": 5.56
       },
       "prevControl": {
         "x": 1.7273391410060306,
         "y": 5.56
-=======
-        "x": 0.0,
-        "y": 1.0
-      },
-      "prevControl": {
-        "x": 0.4873391410060307,
-        "y": 0.9999999999999999
->>>>>>> 57d9daa (Add Chooser to simplify the test)
-=======
-        "x": -1.0,
-        "y": 0.0
-      },
-      "prevControl": {
-        "x": -0.5126608589939693,
-        "y": 0.0
->>>>>>> b067174 (make chooser working)
       },
       "nextControl": null,
       "isLocked": false,
