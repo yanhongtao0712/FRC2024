@@ -81,8 +81,6 @@ public class RobotContainer
     SendableChooser<Command> autoChooser = new SendableChooser<>();
     public RoutePlanner myRoute = new RoutePlanner(pathChooser, autoChooser);
 
-    int counter = 1;
-
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
@@ -108,8 +106,7 @@ public class RobotContainer
 
         NamedCommands.registerCommand(
                 "MyTestCommand", 
-                new InstantCommand(()->{
-                        SmartDashboard.putNumber("MyTestCommand Counter:", counter++);   
+                new InstantCommand(()->{                        
                         intakeSubsystem.setPosition(
                                 Rotation2d.fromDegrees(
                                         Constants.IntakeConstants.PivotConstants.Intake
@@ -171,12 +168,6 @@ public class RobotContainer
                             drivebase.resetOdometry(photonPose); 
                         }
                 }));
-
-
-
-
-
-
 
         NamedCommands.registerCommand(
                 "SetPosition_Intake", 
@@ -336,14 +327,16 @@ public class RobotContainer
         new Trigger(intakeSubsystem::getSwitchVal)
                 .whileFalse(new RepeatCommand(LEDSubsystem.noteIn()))
                         .onTrue(LEDSubsystem.clear());
-/*        new JoystickButton(driverController, XboxController.Button.kX.value)
+        /*        
+                new JoystickButton(driverController, XboxController.Button.kX.value)
                 .onTrue(
                         PathPlannerHelper.GoToCommand_AprilTag(
                                 drivebase, 7
                                 )
                         );
-                        */
+
         // Run the command from path Chooser list
+
         new JoystickButton(driverController, XboxController.Button.kB.value)
                 .onTrue(new InstantCommand(()->{
                         //drivebase.resetOdometry(new Pose2d());
@@ -351,6 +344,7 @@ public class RobotContainer
                                 myRoute.getPathPlanerRoute()
                         );
                 }));
+        */
     }
 
 

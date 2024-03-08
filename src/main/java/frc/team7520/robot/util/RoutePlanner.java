@@ -32,23 +32,15 @@ public class RoutePlanner{
     {
         // Pickup one game piece from position 1 route
         new PathPlannerAuto("AutoTest");
-        new PathPlannerAuto("Profile-11");
-        new PathPlannerAuto("Profile-12");
-        new PathPlannerAuto("Profile-13");
-        new PathPlannerAuto("Profile-21");
-        new PathPlannerAuto("Profile-22");
-        new PathPlannerAuto("Profile-23");
-        new PathPlannerAuto("Profile-31");
-        new PathPlannerAuto("Profile-32");
-        new PathPlannerAuto("Profile-33");
         new PathPlannerAuto("BlueShotOnSite");
-        new PathPlannerAuto("RedShotOnSite");
         new PathPlannerAuto("BlueShotOnSiteLeft");
         new PathPlannerAuto("BlueShotOnSiteRight");
-        SmartDashboard.putNumber("ConfigManualPath", 55);
+        new PathPlannerAuto("RedShotOnSite");
     }
     public void ConfigureManualPathProfile()
     {
+        // For test and validation purpose.
+        // Robot has to path the following test before it could proceed any path planner task
         m_pathChooser.setDefaultOption("X+1m",AutoBuilder.followPath(PathPlannerPath.fromPathFile("X+1m")));
         m_pathChooser.addOption("X-1m", AutoBuilder.followPath(PathPlannerPath.fromPathFile("X-1m")));
         m_pathChooser.addOption("Y+1m", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Y+1m")));
@@ -58,8 +50,6 @@ public class RoutePlanner{
         m_pathChooser.addOption("Turn-90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn-90")));
         m_pathChooser.addOption("DriveCircle", AutoBuilder.followPath(PathPlannerPath.fromPathFile("DriveCircle")));
         m_pathChooser.addOption("Path with Command", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Path with Command")));
-        SmartDashboard.putNumber("ConfigManualPath", 55);
-
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

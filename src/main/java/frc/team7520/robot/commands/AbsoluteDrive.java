@@ -72,9 +72,6 @@ public class AbsoluteDrive extends Command {
         this.CCWSpin = CCWSpin;
         this.CWSpin = CWSpin;
 
-        SmartDashboard.putNumber("getX", vX.getAsDouble());
-                SmartDashboard.putNumber("getY", vY.getAsDouble());
-                SmartDashboard.putNumber("getDirection", headingHorizontal.getAsDouble());
         addRequirements(swerve);
     }
 
@@ -96,9 +93,8 @@ public class AbsoluteDrive extends Command {
             desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().plus(Rotation2d.fromDegrees(20)));
         } else {
             // Get the desired chassis speeds based on a 2 joystick module.
-            // Hongtao slow down the speed by half
-            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble()/2, vY.getAsDouble()/2,
-                    headingHorizontal.getAsDouble()/2,
+            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
+                    headingHorizontal.getAsDouble(),
                     headingVertical.getAsDouble());
             SmartDashboard.putNumber("desiredSpeed.headingH", headingHorizontal.getAsDouble());
             SmartDashboard.putNumber("desiredSpeed.headingV", headingVertical.getAsDouble());
@@ -134,13 +130,14 @@ public class AbsoluteDrive extends Command {
                 swerve.getSwerveDriveConfiguration());
         SmartDashboard.putNumber("LimitedTranslation", translation.getX());
         SmartDashboard.putString("Translation", translation.toString());
-        // Stop the robot from spinning after the auto movement
 
-   double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 
-    && (Math.abs(headingVertical.getAsDouble()) < 0.1)
-    && CCWSpin.getAsBoolean()
-    && CWSpin.getAsBoolean())? 0:desiredSpeeds.omegaRadiansPerSecond;
-   //double omega = desiredSpeeds.omegaRadiansPerSecond;
+        // Stop the robot from spinning after the auto movement
+        // If no button press, then robot should stay still
+        double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 
+        && (Math.abs(headingVertical.getAsDouble()) < 0.1)
+        && CCWSpin.getAsBoolean()
+        && CWSpin.getAsBoolean())? 0:desiredSpeeds.omegaRadiansPerSecond;
+        //double omega = desiredSpeeds.omegaRadiansPerSecond;
         // Make the robot move
        swerve.drive(translation, omega, true);
 

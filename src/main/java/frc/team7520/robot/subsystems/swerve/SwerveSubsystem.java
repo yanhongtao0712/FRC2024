@@ -63,6 +63,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(Constants.Swerve.ANGLE_GEAR_RATIO, 1);
         // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO * ENCODER RESOLUTION).
         //  The encoder resolution per motor revolution is 1 per motor revolution.
+        // Configure Swerve base 2 or 3 respectively base on the SWERVE_BASE_NUMBER
         if(Constants.Drivebase.SWERVE_BASE_NUMBER==2)
         {
             driveConversionFactor = SwerveMath.calculateMetersPerRotation(Units.inchesToMeters(4), Constants.Swerve2.DRIVE_GEAR_RATIO, 1);
@@ -275,6 +276,7 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveDrive.zeroGyro();
     }
 
+    // Reset the robot to the known position
     public void myReset()
     {
         boolean IsBlueTeam = true;
