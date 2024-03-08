@@ -24,6 +24,7 @@ import frc.team7520.robot.commands.Climber;
 import frc.team7520.robot.commands.Intake;
 import frc.team7520.robot.commands.Shooter;
 import frc.team7520.robot.commands.TeleopDrive;
+import frc.team7520.robot.commands.Intake.Position;
 import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
 import frc.team7520.robot.subsystems.climber.ClimberSubsystem;
 import frc.team7520.robot.subsystems.LED;
@@ -50,6 +51,7 @@ public class RobotContainer
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
+    private final LED LEDSubsystem = LED.getInstance();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
@@ -58,11 +60,19 @@ public class RobotContainer
     private final XboxController operatorController =
             new XboxController(OperatorConstants.OPERATOR_CONTROLLER_PORT);
 
+    private final Intake intake = new Intake(intakeSubsystem,
+            operatorController::getRightBumper,
+            operatorController::getYButton,
+            operatorController::getAButton,
+            operatorController::getBButton,
+            operatorController::getXButton,
+            intakeSubsystem::getSwitchVal
+        );
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
-        LED.getInstance().test();
 
         CameraServer.startAutomaticCapture();
 
@@ -89,13 +99,6 @@ public class RobotContainer
                 operatorController::getLeftBumper
         );
 
-        Intake intake = new Intake(intakeSubsystem,
-                operatorController::getRightBumper,
-                operatorController::getYButton,
-                operatorController::getAButton,
-                operatorController::getBButton,
-                operatorController::getXButton
-        );
         
         Climber climber = new Climber(climberSubsystem,
                 operatorController::getLeftStickButton,
@@ -105,6 +108,14 @@ public class RobotContainer
                 operatorController::getLeftY,
                 operatorController::getBackButton
         );
+        // Intake intake = new Intake(intakeSubsystem,
+        //         operatorController::getRightBumper,
+        //         operatorController::getYButton,
+        //         operatorController::getAButton,
+        //         operatorController::getBButton,
+        //         operatorController::getXButton,
+        //         intakeSubsystem::getSwitchVal
+        // );
 
         // Old drive method
         // like in video games
@@ -121,6 +132,7 @@ public class RobotContainer
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
         climberSubsystem.setDefaultCommand(climber);
+        LEDSubsystem.setDefaultCommand(LEDSubsystem.idle());
     }
 
     /**
@@ -150,6 +162,20 @@ public class RobotContainer
         // X/Lock wheels
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
+
+        new Trigger(() -> intake.currPosition == Position.INTAKE)
+                .and(new JoystickButton(operatorController, XboxController.Button.kRightBumper.value))
+                        .onTrue(new RepeatCommand(LEDSubsystem.intaking()))
+                                .onFalse(LEDSubsystem.clear());
+        
+        new Trigger(() -> intake.currPosition == Position.INTAKE)
+                .and(new JoystickButton(operatorController, XboxController.Button.kX.value))
+                        .whileTrue(new RepeatCommand(LEDSubsystem.intaking()))
+                                .onFalse(LEDSubsystem.clear());
+
+        new Trigger(intakeSubsystem::getSwitchVal)
+                .whileFalse(new RepeatCommand(LEDSubsystem.noteIn()))
+                        .onTrue(LEDSubsystem.clear());
     }
 
 

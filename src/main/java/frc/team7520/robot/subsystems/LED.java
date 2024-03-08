@@ -2,6 +2,10 @@ package frc.team7520.robot.subsystems;
 
 
 import com.ctre.phoenix.led.*;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LED extends SubsystemBase {
@@ -19,6 +23,9 @@ public class LED extends SubsystemBase {
 
     public final static CANdle candle = new CANdle(17);
 
+    private final Animation idleAnimation = new RainbowAnimation(255, 0.75, 100);
+    private final Animation intakingAnimation = new ColorFlowAnimation(255, 165, 0, 0, 0.75, 100, Direction.Forward);
+    private final Animation noteIn = new ColorFlowAnimation(0, 255, 0, 0, 0.75, 100, Direction.Forward);
 
     /**
      * Returns the Singleton instance of this LED. This static method
@@ -39,10 +46,36 @@ public class LED extends SubsystemBase {
 
     }
 
-    public void test(){
-        Animation animation = new RainbowAnimation(255, 0.75, 100);
-//        Animation animation = new ColorFlowAnimation(0, 255, 0, 0,  0.75, 100, ColorFlowAnimation.Direction.Forward);
-        candle.animate(animation);
+    public Command idle() {
+        return run(
+            () -> {
+                candle.animate(idleAnimation);
+            }
+        );
+    }
+
+    public InstantCommand intaking() {
+        return new InstantCommand(
+            () -> {
+                candle.animate(intakingAnimation);
+            }
+        );
+    }
+
+    public InstantCommand noteIn() {
+        return new InstantCommand(
+            () -> {
+                candle.animate(noteIn);
+            }
+        );
+    }
+
+    public InstantCommand clear() {
+        return new InstantCommand(
+            () -> {
+                candle.clearAnimation(0);
+            }
+        );
     }
 }
 
