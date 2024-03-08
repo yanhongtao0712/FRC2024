@@ -20,11 +20,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team7520.robot.commands.AbsoluteDrive;
+import frc.team7520.robot.commands.Climber;
 import frc.team7520.robot.commands.Intake;
 import frc.team7520.robot.commands.Shooter;
 import frc.team7520.robot.commands.TeleopDrive;
 import frc.team7520.robot.commands.Intake.Position;
 import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
+import frc.team7520.robot.subsystems.climber.ClimberSubsystem;
 import frc.team7520.robot.subsystems.LED;
 import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
@@ -48,6 +50,7 @@ public class RobotContainer
 
     private final IntakeSubsystem intakeSubsystem = IntakeSubsystem.getInstance();
 
+    private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
     private final LED LEDSubsystem = LED.getInstance();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -96,6 +99,15 @@ public class RobotContainer
                 operatorController::getLeftBumper
         );
 
+        
+        Climber climber = new Climber(climberSubsystem,
+                operatorController::getLeftStickButton,
+                operatorController::getRightStickButton,
+                operatorController::getStartButton,
+                operatorController::getRightY,
+                operatorController::getLeftY,
+                operatorController::getBackButton
+        );
         // Intake intake = new Intake(intakeSubsystem,
         //         operatorController::getRightBumper,
         //         operatorController::getYButton,
@@ -119,6 +131,7 @@ public class RobotContainer
         drivebase.setDefaultCommand(closedAbsoluteDrive);
         shooterSubsystem.setDefaultCommand(shooter);
         intakeSubsystem.setDefaultCommand(intake);
+        climberSubsystem.setDefaultCommand(climber);
         LEDSubsystem.setDefaultCommand(LEDSubsystem.idle());
     }
 
