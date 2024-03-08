@@ -196,19 +196,17 @@ public class RobotContainer
     {
         // Zero gyro
         new JoystickButton(driverController, XboxController.Button.kA.value)
-                //.onTrue(new InstantCommand(drivebase::zeroGyro));
                 .onTrue(new InstantCommand(drivebase::myReset));
         // X/Lock wheels
-        /*
-        new JoystickButton(driverController, XboxController.Button.kX.value)
+                new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
 
-        new Trigger(() -> intake.currPosition == Position.INTAKE)
+        new Trigger(() -> intakeSubsystem.currPosition == Constants.Position.INTAKE)
                 .and(new JoystickButton(operatorController, XboxController.Button.kRightBumper.value))
                         .onTrue(new RepeatCommand(LEDSubsystem.intaking()))
                                 .onFalse(LEDSubsystem.clear());
         
-        new Trigger(() -> intake.currPosition == Position.INTAKE)
+        new Trigger(() -> intakeSubsystem.currPosition == Constants.Position.INTAKE)
                 .and(new JoystickButton(operatorController, XboxController.Button.kX.value))
                         .whileTrue(new RepeatCommand(LEDSubsystem.intaking()))
                                 .onFalse(LEDSubsystem.clear());
@@ -216,15 +214,15 @@ public class RobotContainer
         new Trigger(intakeSubsystem::getSwitchVal)
                 .whileFalse(new RepeatCommand(LEDSubsystem.noteIn()))
                         .onTrue(LEDSubsystem.clear());
-         */
-        new JoystickButton(driverController, XboxController.Button.kX.value)
+/*        new JoystickButton(driverController, XboxController.Button.kX.value)
                 .onTrue(
                         PathPlannerHelper.GoToCommand_AprilTag(
                                 drivebase, 7
                                 )
                         );
+                        */
         // Run the command from path Chooser list
-        new JoystickButton(driverController, XboxController.Button.kY.value)
+        new JoystickButton(driverController, XboxController.Button.kB.value)
                 .onTrue(new InstantCommand(()->{
                         //drivebase.resetOdometry(new Pose2d());
                         CommandScheduler.getInstance().schedule(
@@ -241,7 +239,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-       // return drivebase.getPPAutoCommand("Demo1", true);
        return autoChooser.getSelected();
     }
 }

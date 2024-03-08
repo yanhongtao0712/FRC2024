@@ -96,9 +96,8 @@ public class AbsoluteDrive extends Command {
             desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().plus(Rotation2d.fromDegrees(20)));
         } else {
             // Get the desired chassis speeds based on a 2 joystick module.
-            // Hongtao slow down the speed by half
-            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble()/2, vY.getAsDouble()/2,
-                    headingHorizontal.getAsDouble()/2,
+            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
+                    headingHorizontal.getAsDouble(),
                     headingVertical.getAsDouble());
             SmartDashboard.putNumber("desiredSpeed.headingH", headingHorizontal.getAsDouble());
             SmartDashboard.putNumber("desiredSpeed.headingV", headingVertical.getAsDouble());
@@ -136,9 +135,7 @@ public class AbsoluteDrive extends Command {
         SmartDashboard.putString("Translation", translation.toString());
 
         // Make the robot move
-       //double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 && (Math.abs(headingVertical.getAsDouble()) < 0.1))? 0:desiredSpeeds.omegaRadiansPerSecond;
-        double omega = desiredSpeeds.omegaRadiansPerSecond;
-        swerve.drive(translation, omega, false);
+       swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true);
 
     }
 
