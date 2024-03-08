@@ -96,8 +96,9 @@ public class AbsoluteDrive extends Command {
             desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().plus(Rotation2d.fromDegrees(20)));
         } else {
             // Get the desired chassis speeds based on a 2 joystick module.
-            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
-                    headingHorizontal.getAsDouble(),
+            // Hongtao slow down the speed by half
+            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble()/2, vY.getAsDouble()/2,
+                    headingHorizontal.getAsDouble()/2,
                     headingVertical.getAsDouble());
             SmartDashboard.putNumber("desiredSpeed.headingH", headingHorizontal.getAsDouble());
             SmartDashboard.putNumber("desiredSpeed.headingV", headingVertical.getAsDouble());
