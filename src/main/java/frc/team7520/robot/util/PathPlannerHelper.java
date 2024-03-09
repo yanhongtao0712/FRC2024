@@ -443,4 +443,31 @@ public class PathPlannerHelper {
         ;
 
     }
+
+
+    public static void Move_X(SwerveSubsystem s_Swerve, double distance)
+    {
+        Pose2d curPose = s_Swerve.getPose();
+        Pose2d endPose = new Pose2d(
+            new Translation2d(
+                curPose.getX() + distance,
+                curPose.getY()
+            ),
+            curPose.getRotation()
+        );
+        goToPose(s_Swerve, endPose);
+    }
+
+    public static void Move_Y(SwerveSubsystem s_Swerve, double distance)
+    {
+        Pose2d curPose = s_Swerve.getPose();
+        Pose2d endPose = new Pose2d(
+            new Translation2d(
+                curPose.getX(),
+                curPose.getY() + distance
+            ),
+            curPose.getRotation()
+        );
+        goToPose(s_Swerve, endPose);
+    }
 }

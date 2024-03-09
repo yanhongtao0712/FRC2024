@@ -119,6 +119,13 @@ public class RobotContainer
                         intakeSubsystem.setAutoSpeed(-0.35, false);                          
                 }));
 
+        NamedCommands.registerCommand(
+                "BackwardX1M", 
+                new InstantCommand(()->{
+                        drivebase.resetOdometry(new Pose2d());
+                        PathPlannerHelper.Move_X(drivebase, -1);
+                }));
+
 
         NamedCommands.registerCommand(
                 "ShootOnSite", 
