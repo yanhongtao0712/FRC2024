@@ -4,19 +4,15 @@
 
 package frc.team7520.robot.subsystems.climber;
 
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team7520.robot.Constants;
-import frc.team7520.robot.Constants.IntakeConstants;
 import frc.team7520.robot.Constants.ClimberConstants;
 
 
@@ -43,8 +39,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     /** Creates a new ExampleSubsystem. */
     private ClimberSubsystem() {
-        leftClimberMotor = new CANSparkMax(Constants.ClimberConstants.ClimberLeftID, CANSparkMax.MotorType.kBrushless);
-        rightClimberMotor = new CANSparkMax(Constants.ClimberConstants.ClimberRightID, CANSparkMax.MotorType.kBrushless);
+        leftClimberMotor = new CANSparkMax(Constants.ClimberConstants.climberLeftID, CANSparkMax.MotorType.kBrushless);
+        rightClimberMotor = new CANSparkMax(Constants.ClimberConstants.climberRightID, CANSparkMax.MotorType.kBrushless);
 
         leftClimberMotor.restoreFactoryDefaults();
         rightClimberMotor.restoreFactoryDefaults();
@@ -115,7 +111,7 @@ public class ClimberSubsystem extends SubsystemBase {
         rightClimberPID.setReference(ClimberConstants.maxPosition, CANSparkMax.ControlType.kPosition);
     }
 
-    
+
 
     public void stop() {
         leftClimberMotor.set(0);

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.team7520.robot.subsystems.Intake;
+package frc.team7520.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.team7520.robot.Constants;
 import frc.team7520.robot.Constants.IntakeConstants;
-import frc.team7520.robot.util.DiffEncoder;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -32,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
-    public Rotation2d DesiredPosition = Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot);
+    public Rotation2d desiredPosition = Rotation2d.fromDegrees(IntakeConstants.PivotConstants.Shoot);
 
     // rev through bore encoders
     public DutyCycleEncoder wheelAbsEncoder = new DutyCycleEncoder(2);
@@ -83,9 +83,17 @@ public class IntakeSubsystem extends SubsystemBase {
 
     }
 
-    public void setPosition(Rotation2d position){
-        DesiredPosition = position;
-        pivotPID.setReference(DesiredPosition.getDegrees(), ControlType.kSmartMotion);
+    public void setPosition(IntakeConstants.Position position){
+        desiredPosition = position.getPosition();
+        pivotPID.setReference(desiredPosition.getDegrees(), ControlType.kSmartMotion);
+    }
+
+    public boolean atPosition() {
+        double currPos = pivotEncoder.getPosition();
+        double targetPos = desiredPosition.getDegrees();
+        double error = Math.abs(targetPos - currPos);
+
+        return error < IntakeConstants.PivotConstants.SmartErr;
     }
 
 //    public Command Shoot() {
@@ -161,10 +169,11 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("pivotEncoder", pivotEncoder.getPosition());
-        SmartDashboard.putNumber("DesiredDeg", DesiredPosition.getDegrees());
-        SmartDashboard.putNumber("DesiredRot", DesiredPosition.getRotations());
+        SmartDashboard.putNumber("DesiredDeg", desiredPosition.getDegrees());
+        SmartDashboard.putNumber("DesiredRot", desiredPosition.getRotations());
         SmartDashboard.putNumber("diffedEncoder", getDiffedEncoder());
         SmartDashboard.putNumber("PivotAbsEncoder", pivotAbsEncoder.get());
         SmartDashboard.putNumber("wheelsAbsEncoder", wheelAbsEncoder.get());
     }
+
 }

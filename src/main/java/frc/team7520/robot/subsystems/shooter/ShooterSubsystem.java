@@ -75,8 +75,8 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooterMotor.setInverted(false);
     rightShooterMotor.setInverted(true);*/
 
-        leftShooterMotor = new CANSparkMax(Constants.ShooterConstants.ShooterLeftID, CANSparkMax.MotorType.kBrushless);
-        rightShooterMotor = new CANSparkMax(Constants.ShooterConstants.ShooterRightID, CANSparkMax.MotorType.kBrushless);
+        leftShooterMotor = new CANSparkMax(Constants.ShooterConstants.shooterLeftID, CANSparkMax.MotorType.kBrushless);
+        rightShooterMotor = new CANSparkMax(Constants.ShooterConstants.shooterRightID, CANSparkMax.MotorType.kBrushless);
 
         leftShooterMotor.restoreFactoryDefaults();
         rightShooterMotor.restoreFactoryDefaults();

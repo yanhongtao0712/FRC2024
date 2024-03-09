@@ -4,6 +4,7 @@
 
 package frc.team7520.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -62,6 +63,28 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
+        public enum Position {
+            SHOOT(new Rotation2d(0), 1),
+            INTAKE(new Rotation2d(Units.degreesToRadians(211.374d)), 0.35),
+            AMP(new Rotation2d(Units.degreesToRadians(90)), 0.525);
+
+            private final Rotation2d position;
+            private final double speed;
+
+            Position(Rotation2d position, double speed) {
+                this.position = position;
+                this.speed = speed;
+            }
+
+            public Rotation2d getPosition() {
+                return position;
+            }
+
+            public double getSpeed() {
+                return speed;
+            }
+        }
+
         public static class PivotConstants {
             public static final int CAN_ID = 23;
 
@@ -78,12 +101,12 @@ public final class Constants {
             public static final double kD = 0;
             public static final double kFF = 0.000156;
 
-            public static final double OutputMax = 1;
-            public static final double OutputMin = -1;
+            public static final double OUTPUT_MAX = 1;
+            public static final double OUTPUT_MIN = -1;
 
-            public static final double SmartMaxVel = 10000;
+            public static final double SmartMaxVel = 20000;
             public static final double SmartMinVel = 0;
-            public static final double SmartAccel = 1000;
+            public static final double SmartAccel = 2000;
             public static final double SmartErr = 2;
             public static final int SlotID = 0;
         }
@@ -100,8 +123,8 @@ public final class Constants {
     }
 
     public static class ShooterConstants {
-        public static final int ShooterLeftID = 20;
-        public static final int ShooterRightID = 21;
+        public static final int shooterLeftID = 20;
+        public static final int shooterRightID = 21;
 
         public static final double kP = 0.002;
         public static final double kI = 0.0;
@@ -109,11 +132,13 @@ public final class Constants {
         public static final double kFF = 0.000156;
 
         public static final double MAX_RPM = 5676;
+
+
     }
 
     public static class ClimberConstants {
-        public static final int ClimberLeftID = 30;
-        public static final int ClimberRightID = 31;
+        public static final int climberLeftID = 30;
+        public static final int climberRightID = 31;
         public static final int maxPosition = 520;
 
         public static final double kP = 0.004;

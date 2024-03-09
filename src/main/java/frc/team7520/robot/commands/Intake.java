@@ -4,9 +4,8 @@
 
 package frc.team7520.robot.commands;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.team7520.robot.Constants;
-import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
+import frc.team7520.robot.subsystems.intake.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.BooleanSupplier;
@@ -22,13 +21,7 @@ public class Intake extends Command {
     private final BooleanSupplier reverseSup;
     private final BooleanSupplier switchSup;
 
-    public enum Position {
-        SHOOT,
-        INTAKE,
-        AMP
-    }
-
-    public Position currPosition = Position.SHOOT;
+    public Constants.IntakeConstants.Position currPosition = Constants.IntakeConstants.Position.SHOOT;
 
 
 
@@ -52,15 +45,15 @@ public class Intake extends Command {
     }
 
     public void handleWheels() {
-        if (shootSup.getAsBoolean() && currPosition == Position.SHOOT) {
+        if (shootSup.getAsBoolean() && currPosition == Constants.IntakeConstants.Position.SHOOT) {
             intakeSubsystem.setSpeed(0.35, false);
             return;
         }
-        if (shootSup.getAsBoolean() && currPosition == Position.AMP) {
+        if (shootSup.getAsBoolean() && currPosition == Constants.IntakeConstants.Position.AMP) {
             intakeSubsystem.setSpeed(0.525, false);
             return;
         }
-        if (shootSup.getAsBoolean() && currPosition == Position.INTAKE) {
+        if (shootSup.getAsBoolean() && currPosition == Constants.IntakeConstants.Position.INTAKE) {
             if (switchSup.getAsBoolean()) {
                 intakeSubsystem.setSpeed(-0.35, false);
             }
@@ -78,18 +71,18 @@ public class Intake extends Command {
 
     public void handlePosition() {
         if (shootPosSup.getAsBoolean()) {
-            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Shoot));
-            currPosition = Position.SHOOT;
+            intakeSubsystem.setPosition(Constants.IntakeConstants.Position.SHOOT);
+            currPosition = Constants.IntakeConstants.Position.SHOOT;
             return;
         }
         if (intakePosSup.getAsBoolean()) {
-            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Intake));
-            currPosition = Position.INTAKE;
+            intakeSubsystem.setPosition(Constants.IntakeConstants.Position.INTAKE);
+            currPosition = Constants.IntakeConstants.Position.INTAKE;
             return;
         }
         if (ampPosSup.getAsBoolean()) {
-            intakeSubsystem.setPosition(Rotation2d.fromDegrees(Constants.IntakeConstants.PivotConstants.Amp));
-            currPosition = Position.AMP;
+            intakeSubsystem.setPosition(Constants.IntakeConstants.Position.AMP);
+            currPosition = Constants.IntakeConstants.Position.AMP;
             return;
         }
 

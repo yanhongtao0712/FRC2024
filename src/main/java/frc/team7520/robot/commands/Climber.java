@@ -39,7 +39,7 @@ public class Climber extends Command {
         EXTEND,
         RETRACT
     }
-      
+
     State state = State.NOTHING;
 
     //public Position currPosition = Position.SHOOT;
@@ -61,13 +61,13 @@ public class Climber extends Command {
         this.bShift = shift;
         subsystem.setLeftPosition(ClimberConstants.maxPosition);
         subsystem.setRightPosition(ClimberConstants.maxPosition);
-     
+
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(climberSubsystem);
     }
 
-    
-    
+
+
 
     // Called when the command is initially scheduled.
     @Override
@@ -94,7 +94,7 @@ public class Climber extends Command {
         double leftPosition = subsystem.getLeftPosition();
         double rightPosition = subsystem.getRightPosition();
 
-        /* 
+        /*
         m_SparkMaxPIDController.setP(pValue);
         m_SparkMaxPIDController.setI(0);
         m_SparkMaxPIDController.setD(0);
@@ -104,9 +104,9 @@ public class Climber extends Command {
         m_OtherSparkMaxPIDController.setD(0);
         m_OtherSparkMaxPIDController.setOutputRange(-0.3, 0.3);
         */
-        
 
-        
+
+
         if (bExtent.getAsBoolean()) {
             this.state = State.EXTEND;
             subsystem.setRightArmReference(0);
@@ -124,10 +124,10 @@ public class Climber extends Command {
                 this.state = State.NOTHING;
             }
         }
-        
+
         if (this.state == State.NOTHING) {
-            subsystem.setRightSpeed(bRightManual.getAsDouble() / 2);
-            subsystem.setLeftSpeed(bLeftManual.getAsDouble() / 2);
+            subsystem.setRightSpeed(bRightManual.getAsDouble());
+            subsystem.setLeftSpeed(bLeftManual.getAsDouble());
         }
     }
 

@@ -23,7 +23,7 @@ public class LED extends SubsystemBase {
 
     public final static CANdle candle = new CANdle(17);
 
-    private final Animation idleAnimation = new RainbowAnimation(255, 0.75, 100);
+    public final Animation idleAnimation = new RainbowAnimation(255, 0.75, 100);
     private final Animation intakingAnimation = new ColorFlowAnimation(255, 165, 0, 0, 0.75, 100, Direction.Forward);
     private final Animation noteIn = new ColorFlowAnimation(0, 255, 0, 0, 0.75, 100, Direction.Forward);
 

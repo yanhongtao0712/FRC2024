@@ -19,19 +19,21 @@ import frc.team7520.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.team7520.robot.auto.ShootSequence;
 import frc.team7520.robot.commands.AbsoluteDrive;
 import frc.team7520.robot.commands.Climber;
 import frc.team7520.robot.commands.Intake;
 import frc.team7520.robot.commands.Shooter;
 import frc.team7520.robot.commands.TeleopDrive;
-import frc.team7520.robot.commands.Intake.Position;
-import frc.team7520.robot.subsystems.Intake.IntakeSubsystem;
 import frc.team7520.robot.subsystems.climber.ClimberSubsystem;
 import frc.team7520.robot.subsystems.LED;
+import frc.team7520.robot.subsystems.intake.IntakeSubsystem;
 import frc.team7520.robot.subsystems.shooter.ShooterSubsystem;
 import frc.team7520.robot.subsystems.swerve.SwerveSubsystem;
 
 import java.io.File;
+
+import static frc.team7520.robot.subsystems.LED.candle;
 
 
 /**
@@ -74,6 +76,8 @@ public class RobotContainer
     public RobotContainer()
     {
 
+        registerNamedCommands();
+
         CameraServer.startAutomaticCapture();
 
         // Configure the trigger bindings
@@ -88,8 +92,8 @@ public class RobotContainer
                         OperatorConstants.LEFT_Y_DEADBAND),
                 () -> MathUtil.applyDeadband(driverController.getLeftX(),
                         OperatorConstants.LEFT_X_DEADBAND),
-                () -> driverController.getRightX(),
-                () -> driverController.getRightY(),
+                () -> -driverController.getRightX(),
+                () -> -driverController.getRightY(),
                 driverController::getRightBumper,
                 driverController::getLeftBumper
         );
@@ -99,10 +103,10 @@ public class RobotContainer
                 operatorController::getLeftBumper
         );
 
-        
+
         Climber climber = new Climber(climberSubsystem,
-                operatorController::getLeftStickButton,
-                operatorController::getRightStickButton,
+                () -> false,
+                () -> false,
                 operatorController::getStartButton,
                 operatorController::getRightY,
                 operatorController::getLeftY,
@@ -133,6 +137,8 @@ public class RobotContainer
         intakeSubsystem.setDefaultCommand(intake);
         climberSubsystem.setDefaultCommand(climber);
         LEDSubsystem.setDefaultCommand(LEDSubsystem.idle());
+
+        candle.animate(LEDSubsystem.idleAnimation);
     }
 
     /**
@@ -142,7 +148,8 @@ public class RobotContainer
     private void registerNamedCommands()
     {
         // Example
-        NamedCommands.registerCommand("Shoot", new WaitCommand(1));
+        NamedCommands.registerCommand("shoot", new ShootSequence());
+        NamedCommands.registerCommand("log", new InstantCommand(() -> System.out.println("eeeeeeeeeeeeeeeeeeeeeeeee")));
     }
 
     /**
@@ -163,21 +170,20 @@ public class RobotContainer
         new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
 
-        new Trigger(() -> intake.currPosition == Position.INTAKE)
+        new Trigger(() -> intake.currPosition == Constants.IntakeConstants.Position.INTAKE)
                 .and(new JoystickButton(operatorController, XboxController.Button.kRightBumper.value))
-                        .onTrue(new RepeatCommand(LEDSubsystem.intaking()))
-                                .onFalse(LEDSubsystem.clear());
-        
-        new Trigger(() -> intake.currPosition == Position.INTAKE)
+                .onTrue(new RepeatCommand(LEDSubsystem.intaking()))
+                .onFalse(LEDSubsystem.idle());
+
+        new Trigger(() -> intake.currPosition == Constants.IntakeConstants.Position.INTAKE)
                 .and(new JoystickButton(operatorController, XboxController.Button.kX.value))
-                        .whileTrue(new RepeatCommand(LEDSubsystem.intaking()))
-                                .onFalse(LEDSubsystem.clear());
+                .whileTrue(new RepeatCommand(LEDSubsystem.intaking()))
+                .onFalse(LEDSubsystem.idle());
 
         new Trigger(intakeSubsystem::getSwitchVal)
                 .whileFalse(new RepeatCommand(LEDSubsystem.noteIn()))
-                        .onTrue(LEDSubsystem.clear());
+                .onTrue(LEDSubsystem.idle());
     }
-
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -186,6 +192,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return drivebase.getPPAutoCommand("Demo1", true);
+        return drivebase.getPPAutoCommand("test", true);
     }
 }
