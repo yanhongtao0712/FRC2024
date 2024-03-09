@@ -11,6 +11,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -55,6 +56,8 @@ public class RobotContainer
     private final ClimberSubsystem climberSubsystem = ClimberSubsystem.getInstance();
     private final LED LEDSubsystem = LED.getInstance();
 
+    public final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
             new XboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
@@ -70,6 +73,8 @@ public class RobotContainer
             operatorController::getXButton,
             intakeSubsystem::getSwitchVal
         );
+
+
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -95,7 +100,8 @@ public class RobotContainer
                 () -> -driverController.getRightX(),
                 () -> -driverController.getRightY(),
                 driverController::getRightBumper,
-                driverController::getLeftBumper
+                driverController::getLeftBumper,
+                () -> false
         );
 
         Shooter shooter = new Shooter(shooterSubsystem,
@@ -141,6 +147,17 @@ public class RobotContainer
         candle.animate(LEDSubsystem.idleAnimation);
     }
 
+    private void registerAutos(){
+
+        autoChooser.setDefaultOption("Safe auto", drivebase.getPPAutoCommand("safe", true));
+        autoChooser.addOption("Amp", drivebase.getPPAutoCommand("Amp", true));
+        autoChooser.addOption("BotToCentBot", drivebase.getPPAutoCommand("BotToCentBot", true));
+        autoChooser.addOption("MidToCentTop", drivebase.getPPAutoCommand("MidToCentTop", true));
+        autoChooser.addOption("TopToCentTop", drivebase.getPPAutoCommand("TopToCentTop", true));
+
+
+    }
+
     /**
      * Use this method to define named commands for use in {@link PathPlannerAuto}
      *
@@ -151,6 +168,8 @@ public class RobotContainer
         NamedCommands.registerCommand("shoot", new ShootSequence());
         NamedCommands.registerCommand("log", new InstantCommand(() -> System.out.println("eeeeeeeeeeeeeeeeeeeeeeeee")));
     }
+
+
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the

@@ -26,7 +26,7 @@ public class AbsoluteDrive extends Command {
     private final SwerveSubsystem swerve;
     private final DoubleSupplier vX, vY;
     private final DoubleSupplier headingHorizontal, headingVertical;
-    private final BooleanSupplier CCWSpin, CWSpin;
+    private final BooleanSupplier CCWSpin, CWSpin, speedCutoffSup;
     private boolean initRotation = false;
 
     /**
@@ -50,7 +50,7 @@ public class AbsoluteDrive extends Command {
      *                          with no deadband. Positive is away from the alliance wall.
      */
     public AbsoluteDrive(SwerveSubsystem swerve, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier headingHorizontal,
-                         DoubleSupplier headingVertical) {
+                         DoubleSupplier headingVertical, BooleanSupplier speedCutoffSup) {
         this.swerve = swerve;
         this.vX = vX;
         this.vY = vY;
@@ -58,12 +58,13 @@ public class AbsoluteDrive extends Command {
         this.headingVertical = headingVertical;
         this.CCWSpin = () -> false;
         this.CWSpin = () -> false;
+        this.speedCutoffSup = speedCutoffSup;
 
         addRequirements(swerve);
     }
 
     public AbsoluteDrive(SwerveSubsystem swerve, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier headingHorizontal,
-                         DoubleSupplier headingVertical, BooleanSupplier CWSpin, BooleanSupplier CCWSpin) {
+                         DoubleSupplier headingVertical, BooleanSupplier CWSpin, BooleanSupplier CCWSpin, BooleanSupplier speedCutoffSup) {
         this.swerve = swerve;
         this.vX = vX;
         this.vY = vY;
@@ -71,6 +72,7 @@ public class AbsoluteDrive extends Command {
         this.headingVertical = headingVertical;
         this.CCWSpin = CCWSpin;
         this.CWSpin = CWSpin;
+        this.speedCutoffSup = speedCutoffSup;
 
         addRequirements(swerve);
     }
@@ -85,15 +87,20 @@ public class AbsoluteDrive extends Command {
     @Override
     public void execute() {
 
+        Boolean speedCutoff = speedCutoffSup.getAsBoolean();
+
+        double vXspeed = vX.getAsDouble() * (speedCutoffSup.getAsBoolean() ? 1 : 1);
+        double vYspeed = vY.getAsDouble() * (speedCutoffSup.getAsBoolean() ? 1 : 1);
+
         ChassisSpeeds desiredSpeeds;
 
         if (CWSpin.getAsBoolean()) {
-            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().minus(Rotation2d.fromDegrees(20)));
+            desiredSpeeds = swerve.getTargetSpeeds(vXspeed, vYspeed, swerve.getHeading().minus(Rotation2d.fromDegrees(20)));
         } else if (CCWSpin.getAsBoolean()) {
-            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(), swerve.getHeading().plus(Rotation2d.fromDegrees(20)));
+            desiredSpeeds = swerve.getTargetSpeeds(vXspeed, vYspeed, swerve.getHeading().plus(Rotation2d.fromDegrees(20)));
         } else {
             // Get the desired chassis speeds based on a 2 joystick module.
-            desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
+            desiredSpeeds = swerve.getTargetSpeeds(vXspeed, vYspeed,
                     headingHorizontal.getAsDouble(),
                     headingVertical.getAsDouble());
         }
@@ -121,6 +128,7 @@ public class AbsoluteDrive extends Command {
 
         // Make the robot move
         swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true);
+
 
     }
 
