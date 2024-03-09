@@ -2,31 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7792735585471171,
-      "y": 4.440483062784308
+      "x": 0.0,
+      "y": 0.0
     },
-    "rotation": 120.00492087082401
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Source side to source note"
+            "name": "ShootOnSite"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.5
+            "name": "ResetOdometer"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Source note to source side"
+            "name": "BlueLeftSideTurn"
           }
         }
       ]

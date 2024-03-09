@@ -27,7 +27,7 @@ public class AbsoluteDrive extends Command {
     private final DoubleSupplier vX, vY;
     private final DoubleSupplier headingHorizontal, headingVertical;
     private final BooleanSupplier CCWSpin, CWSpin;
-    private boolean initRotation = false;
+private boolean initRotation = false;
 
     /**
      * Used to drive a swerve robot in full field-centric mode.  vX and vY supply translation inputs, where x is
@@ -133,11 +133,13 @@ public class AbsoluteDrive extends Command {
 
         // Stop the robot from spinning after the auto movement
         // If no button press, then robot should stay still
+        /* 
         double omega = (Math.abs(headingHorizontal.getAsDouble()) < 0.1 
         && (Math.abs(headingVertical.getAsDouble()) < 0.1)
         && CCWSpin.getAsBoolean()
         && CWSpin.getAsBoolean())? 0:desiredSpeeds.omegaRadiansPerSecond;
-        //double omega = desiredSpeeds.omegaRadiansPerSecond;
+        */
+        double omega = desiredSpeeds.omegaRadiansPerSecond;
         // Make the robot move
        swerve.drive(translation, omega, true);
 

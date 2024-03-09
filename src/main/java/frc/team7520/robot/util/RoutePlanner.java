@@ -31,11 +31,19 @@ public class RoutePlanner{
     public void ConfigureAutoPathProfile()
     {
         // Pickup one game piece from position 1 route
+        /*
         new PathPlannerAuto("AutoTest");
         new PathPlannerAuto("BlueShotOnSite");
         new PathPlannerAuto("BlueShotOnSiteLeft");
         new PathPlannerAuto("BlueShotOnSiteRight");
         new PathPlannerAuto("RedShotOnSite");
+         */
+        new PathPlannerAuto("MiddleSideMove");
+        new PathPlannerAuto("RedLeftSideTurn");
+        new PathPlannerAuto("RedRightSideTurn");
+        new PathPlannerAuto("BlueLeftSideTurn");
+        new PathPlannerAuto("BlueRightSideTurn");
+
     }
     public void ConfigureManualPathProfile()
     {
@@ -49,7 +57,6 @@ public class RoutePlanner{
         m_pathChooser.addOption("Turn+90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn+90")));
         m_pathChooser.addOption("Turn-90", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Turn-90")));
         m_pathChooser.addOption("DriveCircle", AutoBuilder.followPath(PathPlannerPath.fromPathFile("DriveCircle")));
-        m_pathChooser.addOption("Path with Command", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Path with Command")));
     }
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

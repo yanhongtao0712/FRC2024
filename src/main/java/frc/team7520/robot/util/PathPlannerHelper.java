@@ -455,7 +455,7 @@ public class PathPlannerHelper {
             ),
             curPose.getRotation()
         );
-        goToPose(s_Swerve, endPose);
+        CommandScheduler.getInstance().schedule(goToPose(s_Swerve, endPose));
     }
 
     public static void Move_Y(SwerveSubsystem s_Swerve, double distance)
@@ -468,6 +468,6 @@ public class PathPlannerHelper {
             ),
             curPose.getRotation()
         );
-        goToPose(s_Swerve, endPose);
+        CommandScheduler.getInstance().schedule(goToPose(s_Swerve, endPose));
     }
 }

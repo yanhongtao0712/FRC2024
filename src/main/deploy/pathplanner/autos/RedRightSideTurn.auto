@@ -2,31 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3763132980811417,
-      "y": 5.569261320340823
+      "x": 0.0,
+      "y": 0.0
     },
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Mid to amp"
+            "name": "ShootOnSite"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 2.0
+            "name": "ResetOdometer"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Amp to mid note"
+            "name": "RedRightSideTurn"
           }
         }
       ]

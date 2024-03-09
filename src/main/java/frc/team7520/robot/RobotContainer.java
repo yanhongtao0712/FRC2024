@@ -12,8 +12,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -84,6 +86,8 @@ public class RobotContainer
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
+        //pathChooser.
+        //autoChooser.Reset();
 
         CameraServer.startAutomaticCapture();
 
@@ -103,6 +107,16 @@ public class RobotContainer
         SmartDashboard.putNumber("Swerve Base:", Constants.Drivebase.SWERVE_BASE_NUMBER);
                 // Configure the trigger bindings
 
+        NamedCommands.registerCommand(
+                "ResetOdometer", 
+                new InstantCommand(()->{                        
+                        drivebase.resetOdometry(new Pose2d());
+                        Pose2d curPose = drivebase.getPose();
+                        SmartDashboard.putNumber("Odometer x:", curPose.getX());
+                        SmartDashboard.putNumber("Odometer y:", curPose.getY());
+                        SmartDashboard.putNumber("Odometer angle:", curPose.getRotation().getDegrees());
+
+                }));
 
         NamedCommands.registerCommand(
                 "MyTestCommand", 
@@ -119,8 +133,75 @@ public class RobotContainer
         NamedCommands.registerCommand(
                 "BackwardX1M", 
                 new InstantCommand(()->{
-                        drivebase.resetOdometry(new Pose2d());
-                        PathPlannerHelper.Move_X(drivebase, -1);
+                        PathPlannerHelper.Move_X(drivebase, -1.5);
+                }));
+
+        NamedCommands.registerCommand(
+                "ForwardX1M", 
+                new InstantCommand(()->{
+                        PathPlannerHelper.Move_X(drivebase, 1.5);
+                }));
+
+        NamedCommands.registerCommand(
+                "RedLeftSideTurn", 
+                new InstantCommand(()->{
+                        Pose2d curPose = drivebase.getPose();
+                        Pose2d endPose = new Pose2d(
+                                new Translation2d(-1.3, -2),
+                                Rotation2d.fromDegrees(0)
+                        );
+                        var cmd = PathPlannerHelper.goToPose(drivebase, endPose);
+                        CommandScheduler.getInstance().schedule(cmd);
+                }));
+
+        NamedCommands.registerCommand(
+                "RedRightSideTurn", 
+                new InstantCommand(()->{
+                        Pose2d curPose = drivebase.getPose();
+                        Pose2d endPose = new Pose2d(
+                                new Translation2d(-2, 1),
+                                Rotation2d.fromDegrees(0)
+                        );
+                        var cmd = PathPlannerHelper.goToPose(drivebase, endPose);
+                        CommandScheduler.getInstance().schedule(cmd);
+                }));
+
+
+
+        NamedCommands.registerCommand(
+                "BlueRightSideTurn", 
+                new InstantCommand(()->{
+                        Pose2d curPose = drivebase.getPose();
+                        Pose2d endPose = new Pose2d(
+                                new Translation2d(-1.3, 2),
+                                Rotation2d.fromDegrees(0)
+                        );
+                        var cmd = PathPlannerHelper.goToPose(drivebase, endPose);
+                        CommandScheduler.getInstance().schedule(cmd);
+                }));
+
+        NamedCommands.registerCommand(
+                "BlueLeftSideTurn", 
+                new InstantCommand(()->{
+                        Pose2d curPose = drivebase.getPose();
+                        Pose2d endPose = new Pose2d(
+                                new Translation2d(-2, -1),
+                                Rotation2d.fromDegrees(0)
+                        );
+                        var cmd = PathPlannerHelper.goToPose(drivebase, endPose);
+                        CommandScheduler.getInstance().schedule(cmd);
+                }));
+
+        NamedCommands.registerCommand(
+                "RightSideTurn", 
+                new InstantCommand(()->{
+                        Pose2d curPose = drivebase.getPose();
+                        Pose2d endPose = new Pose2d(
+                                new Translation2d(-0.7, 1.5),
+                                Rotation2d.fromDegrees(0)
+                        );
+                        var cmd = PathPlannerHelper.goToPose(drivebase, endPose);
+                        CommandScheduler.getInstance().schedule(cmd);
                 }));
 
 
@@ -286,7 +367,7 @@ public class RobotContainer
         SmartDashboard.putData("Auto Mode", autoChooser);
         SmartDashboard.putData("Test Route", pathChooser); 
         myRoute.ConfigureAutoPathProfile();
-        myRoute.ConfigureManualPathProfile();
+        myRoute.ConfigureManualPathProfile();        
         
         configureBindings();
     }
@@ -314,9 +395,7 @@ public class RobotContainer
     {
         // Zero gyro
         new JoystickButton(driverController, XboxController.Button.kA.value)
-                .onTrue(new InstantCommand(()->{
-                        drivebase.myReset();
-                }));
+                .onTrue(new InstantCommand(drivebase::zeroGyro));
         // X/Lock wheels
                 new JoystickButton(driverController, XboxController.Button.kX.value)
                 .whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock)));
@@ -341,7 +420,7 @@ public class RobotContainer
                                 drivebase, 7
                                 )
                         );
-
+        
         // Run the command from path Chooser list
 
         new JoystickButton(driverController, XboxController.Button.kB.value)
@@ -351,7 +430,7 @@ public class RobotContainer
                                 myRoute.getPathPlanerRoute()
                         );
                 }));
-        */
+*/
     }
 
 

@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -12,15 +18,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Speaker3toGP3"
+            "name": "ResetOdometer"
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 2.0
+            "name": "BackwardX1M"
           }
         }
       ]
