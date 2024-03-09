@@ -97,23 +97,6 @@ public class Robot extends TimedRobot
             intakeSubsystem.setSpeed(0);
             intakeSubsystem.AutoMode = false;
         }
-        
-        /*
-        if(intakeSubsystem.AutoMode == true && toShoot == true)
-        {
-            shooterSubsystem.setSpeed(1, false);
-        }
-        if(intakeSubsystem.AutoMode == true 
-            && toShoot == true
-            //&& intakeSubsystem.input.get() == true
-            )
-        {
-            shooterSubsystem.setSpeed(0, false);
-            toShoot = false;
-            intakeSubsystem.AutoMode = false;
-        }
-         */
-
 
     }
     
@@ -134,10 +117,7 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-
-
-    }
+    public void teleopPeriodic() {}
     
     
     @Override
