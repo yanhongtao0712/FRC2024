@@ -211,6 +211,6 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        return drivebase.getPPAutoCommand("test", true);
+        return new ShootSequence();
     }
 }
